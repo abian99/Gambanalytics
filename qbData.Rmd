@@ -1,0 +1,67 @@
+---
+title: "qbData"
+output: html_document
+date: "2022-12-01"
+---
+
+```{r setup, include=FALSE}
+library(nflfastR)
+library(dplyr, warn.conflicts = FALSE)
+library(tidyverse)
+library(nflplotR)
+library(ggrepel)
+
+nflreadr::.clear_cache()
+```
+
+## File in which we analyze NFL QB's and their effectiveness.
+
+```{r cars}
+pbp <- load_pbp(2022) %>%
+  filter(season_type == "REG") %>%
+  filter(!is.na(posteam) & (pass == 1) & (!is.na(passer)))
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+epaPerPass <- pbp %>%
+  group_by(passer) %>%
+  mutate(totalAttempts = n(),
+         avg_epa = mean(qb_epa),
+         shortPass = mean(air_yards < 10, na.rm = T),
+         mediumPass = mean(10 >= air_yards <= 25, na.rm = T),
+         longPass = mean(air_yards > 25, na.rm = T)
+         ) %>%
+  summarize(passer,
+            totalAttempts,
+            avg_epa,
+            shortPasses
+            ) %>%
+  filter(totalAttempts > 110) %>%
+  unique()
+
+ggplot(epaPerPass, aes(x = totalAttempts, y = avg_epa, label = passer)) +
+  geom_point() +
+  geom_label_repel(
+    min.segment.length = 0,
+    max.overlaps = Inf,
+    label.size = 0,
+    label.padding = 0,
+    label.r = 0,
+    size = 4,
+    family = "Monstercat"
+  ) +
+  geom_smooth(
+    method = lm,
+    se = FALSE,
+    col = 'red',
+    linetype = 'dashed'
+  )
+```
+```{r}
+
+```
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

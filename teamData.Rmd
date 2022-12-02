@@ -1,0 +1,199 @@
+---
+title: "TeamData"
+output: html_document
+date: "2022-12-01"
+---
+
+```{r setup, include=FALSE}
+library(nflfastR)
+library(dplyr, warn.conflicts = FALSE)
+library(tidyverse)
+library(nflplotR)
+
+nflreadr::.clear_cache()
+```
+
+```{r}
+pbp <- load_pbp(2022) %>%
+  filter(season_type == "REG") %>%
+  filter(!is.na(posteam) & (rush == 1 | pass == 1))
+```
+
+```{r}
+scores <-
+  pbp[c(
+    'game_id',
+    'week',
+    'home_team',
+    'away_team',
+    'season_type',
+    'home_score',
+    'away_score'
+  )] %>%
+  unique()
+
+home_df <-
+  scores[c('home_team', 'away_team', 'home_score', 'away_score')] %>%
+  rename(team = home_team) %>%
+  group_by(team) %>%
+  mutate(
+    oppositionTeam = away_team,
+    PointsFor = mean(home_score),
+    PointsAgainst = mean(away_score),
+    win = if_else(home_score > away_score, 1, 0),
+    pythWin = (PointsFor^13.91)/((PointsFor^13.91)+(PointsAgainst^13.91))
+  ) %>%
+  summarise(team,
+            oppositionTeam,
+            PointsFor,
+            PointsAgainst,
+            win,
+            pythWin
+            ) %>%
+  unique()
+
+away_df <-
+  scores[c('away_team', 'home_team', 'home_score', 'away_score')] %>%
+  rename(team = away_team) %>%
+  group_by(team) %>%
+  mutate(
+    oppositionTeam = home_team,
+    PointsFor = away_score,
+    PointsAgainst = home_score,
+    win = if_else(away_score > home_score, 1, 0),
+    pythWin = (PointsFor^13.91)/((PointsFor^13.91)+(PointsAgainst^13.91))
+  ) %>%
+  summarize(team,
+            oppositionTeam,
+            PointsFor,
+            PointsAgainst,
+            win,
+            pythWin
+            ) %>%
+  unique()
+
+schedule_df <- rbind(x = away_df, y = home_df)
+avg_points = mean(schedule_df$PointsFor)
+```
+
+```{r}
+team_df <- schedule_df %>%
+  group_by(team) %>%
+  mutate(
+    oRatio = mean(PointsFor / avg_points),
+    dRatio = mean(PointsAgainst / avg_points),
+    pointsFor = mean(PointsFor),
+    pointsAgainst = mean(PointsAgainst),
+    netPF = mean(PointsFor / dRatio),
+    netPA = mean(PointsAgainst / oRatio),
+    wins = sum(win),
+    losses = sum(win == 0),
+    winPct = wins / (wins + losses),
+    pythWin = ((pointsFor^2.37)/((pointsFor^2.37)+(pointsAgainst^2.37)))*17
+  ) %>%
+  summarize(team,
+            pointsFor,
+            pointsAgainst,
+            netPF,
+            netPA,
+            wins,
+            pythWin,
+            losses,
+            winPct,
+            oRatio,
+            dRatio) %>%
+  unique()
+
+ggplot(team_df, aes(x = pointsFor, y = pointsAgainst)) +
+  geom_mean_lines(aes(h_var = pointsFor, v_var = pointsAgainst)) +
+  geom_nfl_logos(aes(team_abbr = team), width = 0.07, alpha = 0.7) +
+  labs(x = "PointsFor/Game",
+       y = "PointsAgainst/Game",
+       title = "2021-2022 NFL Average Points For vs Points Against") +
+  theme_bw() +
+  theme(plot.title = element_text(size = 12, hjust = 0.5, face = "bold")) +
+  scale_y_reverse()
+```
+
+```{r}
+below500 <- team_df %>%
+  filter(winPct < .501)
+
+above500 <- team_df %>%
+  filter(winPct > .500)
+
+above500_df <- schedule_df %>%
+  filter(oppositionTeam %in% above500$team) %>%
+  group_by(team) %>%
+  mutate(
+    pointsFor = mean(PointsFor),
+    pointsAgainst = mean(PointsAgainst),
+    wins = sum(win),
+    losses = sum(win == 0),
+    winPct_above = wins / (wins + losses)
+  ) %>%
+  summarize(team,
+            winPct_above) %>%
+  unique()
+
+below500_df <- schedule_df %>%
+  filter(oppositionTeam %in% below500$team) %>%
+  group_by(team) %>%
+  mutate(
+    pointsFor = mean(PointsFor),
+    pointsAgainst = mean(PointsAgainst),
+    wins = sum(win),
+    losses = sum(win == 0),
+    winPct_below = wins / (wins + losses)
+  ) %>%
+  summarize(team,
+            winPct_below) %>%
+  unique()
+
+winPct500 <- merge(above500_df, below500_df, by = "team")
+
+ggplot(winPct500, aes(x = winPct_below, y = winPct_above)) +
+  geom_mean_lines(aes(h_var = winPct_below, v_var = winPct_above)) +
+  geom_nfl_logos(aes(team_abbr = team), width = 0.07, alpha = 0.7) +
+  labs(x = "Win% vs Teams Below .500",
+       y = "Win% vs Teams Above .500",
+       title = "2022-2023 NFL Win% vs teams above .500 and below") +
+  theme_bw() +
+  theme(plot.title = element_text(size = 12, hjust = 0.5, face = "bold"))
+```
+```{r}
+ggplot(team_df, aes(x = wins, y = pythWin)) +
+  geom_mean_lines(aes(h_var = wins, v_var = pythWin)) +
+  geom_nfl_logos(aes(team_abbr = team), width = 0.07, alpha = 0.7) +
+  labs(x = "# Of Wins",
+       y = "# Of Pythagorean Expected Wins",
+       title = "2022-2023 Wins vs Pythagorean Expected Wins") +
+  theme_bw() +
+  theme(plot.title = element_text(size = 12, hjust = 0.5, face = "bold"))
+
+```
+
+```{r}
+ggplot(team_df, aes(x = pointsFor, y = netPF)) +
+  geom_mean_lines(aes(h_var = pointsFor, v_var = netPF)) +
+  geom_nfl_logos(aes(team_abbr = team), width = 0.07, alpha = 0.7) +
+  labs(x = "Actual Points For",
+       y = "Weighted Points For",
+       title = "2022-2023 NFL Points For vs Weighted Points For Based On Opponent") +
+  theme_bw() +
+  theme(plot.title = element_text(size = 12, hjust = 0.5, face = "bold"))
+
+```
+
+``` {r}
+ggplot(team_df, aes(x = pointsAgainst, y = netPA)) +
+  geom_mean_lines(aes(h_var = pointsAgainst, v_var = netPA)) +
+  geom_nfl_logos(aes(team_abbr = team), width = 0.07, alpha = 0.7) +
+  labs(x = "Actual Points Against",
+       y = "Weighted Points Against",
+       title = "2022-2023 NFL Points Against vs Weighted Points Against Based On Opponent") +
+  theme_bw() +
+  theme(plot.title = element_text(size = 12, hjust = 0.5, face = "bold"))+
+  scale_y_reverse()+
+  scale_x_reverse()
+```
