@@ -10,7 +10,8 @@ library(dplyr, warn.conflicts = FALSE)
 library(tidyverse)
 library(nflplotR)
 library(ggrepel)
-
+library(knitr)
+library(forcats)
 nflreadr::.clear_cache()
 ```
 
@@ -32,13 +33,15 @@ epaPerPass <- pbp %>%
   mutate(totalAttempts = n(),
          avg_epa = mean(qb_epa),
          shortPass = mean(air_yards < 10, na.rm = T),
-         mediumPass = mean(10 >= air_yards <= 25, na.rm = T),
+         mediumPass = mean((10 <= air_yards & air_yards <= 25), na.rm = T),
          longPass = mean(air_yards > 25, na.rm = T)
          ) %>%
   summarize(passer,
             totalAttempts,
             avg_epa,
-            shortPasses
+            shortPass,
+            mediumPass,
+            longPass
             ) %>%
   filter(totalAttempts > 110) %>%
   unique()
@@ -62,6 +65,15 @@ ggplot(epaPerPass, aes(x = totalAttempts, y = avg_epa, label = passer)) +
   )
 ```
 ```{r}
+data1 <- epaPerPass                                               # Replicate original data
+longPasses$passer <- factor(data1$passer,                                    # Factor levels in decreasing order
+                  levels = data1$passer[order(data1$longPass, decreasing = TRUE)])
+
+data1 %>%
+  ggplot(aes(x = passer, y = longPass)) +
+  geom_bar(stat = "identity", width = 0.7, fill = "red") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1))
 
 ```
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
