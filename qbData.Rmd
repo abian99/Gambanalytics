@@ -12,6 +12,8 @@ library(nflplotR)
 library(ggrepel)
 library(knitr)
 library(forcats)
+library(ggpubr)
+knitr::opts_chunk$set(echo = TRUE)
 nflreadr::.clear_cache()
 ```
 
@@ -27,7 +29,7 @@ pbp <- load_pbp(2022) %>%
 
 You can also embed plots, for example:
 
-```{r pressure, echo=FALSE}
+```{r pressure, echo=FALSE, warning = FALSE, message = FALSE}
 epaPerPass <- pbp %>%
   group_by(passer) %>%
   mutate(totalAttempts = n(),
@@ -45,6 +47,9 @@ epaPerPass <- pbp %>%
             ) %>%
   filter(totalAttempts > 110) %>%
   unique()
+
+pbp <- pbp %>%
+  filter(passer %in% epaPerPass$passer)
 
 ggplot(epaPerPass, aes(x = totalAttempts, y = avg_epa, label = passer)) +
   geom_point() +
@@ -64,16 +69,47 @@ ggplot(epaPerPass, aes(x = totalAttempts, y = avg_epa, label = passer)) +
     linetype = 'dashed'
   )
 ```
-```{r}
-data1 <- epaPerPass                                               # Replicate original data
-longPasses$passer <- factor(data1$passer,                                    # Factor levels in decreasing order
-                  levels = data1$passer[order(data1$longPass, decreasing = TRUE)])
+```{r fig.width = 25}
+data1 <- epaPerPass
+long_sorted <- data1 # Replicate original data
+long_sorted$passer <- factor(long_sorted$passer, # Factor levels in decreasing order
+                  levels = long_sorted$passer[order(long_sorted$longPass, decreasing = TRUE)])
 
-data1 %>%
+medium_sorted <- data1 
+medium_sorted$passer <- factor(medium_sorted$passer,                                  
+                 levels = medium_sorted$passer[order(medium_sorted$mediumPass, decreasing = TRUE)])
+
+short_sorted <- data1 
+short_sorted$passer <- factor(short_sorted$passer,                                  
+                 levels = short_sorted$passer[order(short_sorted$shortPass, decreasing = TRUE)])
+
+longPct_graph <- long_sorted %>%
   ggplot(aes(x = passer, y = longPass)) +
-  geom_bar(stat = "identity", width = 0.7, fill = "red") +
-  theme_minimal() +
+  ggtitle("Percentage of Pass Attempts >25 Yards") +
+  geom_bar(stat = "identity", width = 0.7, fill = "#bc4b51") +
+  theme_classic() +
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1))
 
+mediumPct_graph <- medium_sorted %>%
+  ggplot(aes(x = passer, y = mediumPass)) +
+  ggtitle("Percentage of Pass Attempts within 10-25 Yards") +
+  geom_bar(stat = "identity", width = 0.7, fill = "#f4a259") +
+  theme_classic() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1))
+
+shortPct_graph <-short_sorted %>%
+  ggplot(aes(x = passer, y = shortPass)) +
+  ggtitle("Percentage of Pass Attempts <10 Yards") +
+  geom_bar(stat = "identity", width = 0.7, fill = "#8cb369") +
+  theme_classic() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1))
+
+ggarrange(longPct_graph, mediumPct_graph, shortPct_graph,
+          ncol = 1, nrow = 3)
+
 ```
+```{r fig.width = 45}
+
+```
+
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
