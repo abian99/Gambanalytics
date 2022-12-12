@@ -9,6 +9,7 @@ library(nflfastR)
 library(dplyr, warn.conflicts = FALSE)
 library(tidyverse)
 library(nflplotR)
+source("buildFunctions.R")
 knitr::opts_chunk$set(echo = TRUE)
 nflreadr::.clear_cache()
 ```
@@ -201,7 +202,7 @@ ggplot(team_df, aes(x = pointsAgainst, y = netPA)) +
 ```
 ```{r, echo = FALSE}
 current_schedule <- fast_scraper_schedules(2022) %>%
-  filter(week == 13)
+  filter(week == 14)
 
 predictor_DF <- current_schedule %>%
   inner_join(
@@ -215,7 +216,7 @@ predictor_DF <- current_schedule %>%
     homeavgRatio = pointsFor.x*dRatio.y,
     homeNetRatio = netPF.x * dRatio.y,
     awayAvg = pointsFor.y,
-    awayAvgRatio = pointsFor.y*dRatio.x,
+    awayAvgRatio = pointsFor.y * dRatio.x,
     awayNetRatio = netPF.y * dRatio.x,
     avgWinner = if_else(homeAvg > awayAvg, home_team, if_else(awayAvg > homeAvg, away_team, "TIE")),
     avgRatioWinner = if_else(homeavgRatio > awayAvgRatio, home_team, if_else(awayAvgRatio > homeavgRatio, away_team, "TIE")),
@@ -247,20 +248,100 @@ pred <- predictor_DF %>%
 ```
 
 ```{r}
-current_week = 13
+current_week = 14
 current_season_schedule <- fast_scraper_schedules(2022)
 current_week_counter = 5
 
-temp_schedule <- schedule_df %>%
+temp_team_schedule <- schedule_df %>%
   filter(week < 5)
 
-temp_team_df <- return_team_df(temp_schedule)
-baseline_predictor_df <- return_predictor_df(current_schedule)
+temp_league_schedule <- current_season_schedule %>%
+  filter(week == 5)
+
+temp_team_df <- return_team_df(temp_team_schedule)
+baseline_predictor_df <- return_predictor_df(temp_league_schedule, temp_team_df, avg_points)
 
 while (current_week_counter < current_week) {
-  temp_schedule <- current_season_schedule %>%
+  temp_team_schedule2 <- schedule_df %>%
     filter(week < current_week_counter)
   
+  temp_league_schedule <- current_season_schedule %>%
+    filter(week == current_week_counter)
+  
+  temp_team_df <- return_team_df(temp_team_schedule2)
+  baseline_predictor_df <- rbind(baseline_predictor_df, return_predictor_df(temp_league_schedule, temp_team_df, avg_points))
+
   current_week_counter = current_week_counter + 1
 }
+```
+
+```{r}
+prediction_results <- baseline_predictor_df[c('avgWinner', 'avgRatioWinner', 'netRatioWinner', 'avgRatioWinner2', 'netRatioWinner2', 'jucculaWinner', 'actualWinner')] %>%
+  mutate(
+    avgWinnerPct = sum(avgWinner == actualWinner)/n(),
+    avgRatioWinnerPct = sum(avgRatioWinner == actualWinner)/n(),
+    netRatioWinnerPct = sum(netRatioWinner == actualWinner)/n(),
+    avgRatioWinnerPct2 = sum(avgRatioWinner2 == actualWinner)/n(),
+    netRatioWinnerPct2 = sum(netRatioWinner2 == actualWinner)/n(),
+    jucculaWinPct = sum(netRatioWinner2 == actualWinner)/n(),
+    everyoneWinPct = sum((netRatioWinner2 == avgRatioWinner2) & (netRatioWinner2 == netRatioWinner) & (netRatioWinner2 == avgRatioWinner) & (netRatioWinner2 == avgWinner) & (netRatioWinner2 == actualWinner))/ sum((netRatioWinner2 == avgRatioWinner2) & (netRatioWinner2 == netRatioWinner) & (netRatioWinner2 == avgRatioWinner) & (netRatioWinner2 == avgWinner)),
+    totalAgree = sum((netRatioWinner2 == avgRatioWinner2) & (netRatioWinner2 == netRatioWinner) & (netRatioWinner2 == avgRatioWinner) & (netRatioWinner2 == avgWinner) & (netRatioWinner2 == actualWinner)),
+    total = n()
+  ) %>%
+  summarize(
+    avgWinnerPct,
+    avgRatioWinnerPct,
+    netRatioWinnerPct,
+    avgRatioWinnerPct2,
+    netRatioWinnerPct2,
+    jucculaWinPct,
+    everyoneWinPct,
+    totalAgree,
+    total
+  ) %>%
+  unique()
+```
+
+```{r}
+moneyLineOdds <- current_season_schedule %>%
+  summarize(
+    game_id,
+    home_moneyline,
+    away_moneyline
+  )
+
+agreedGames <- baseline_predictor_df %>%
+  filter((netRatioWinner2 == avgRatioWinner2) & (netRatioWinner2 == netRatioWinner) & (netRatioWinner2 == avgRatioWinner) & (netRatioWinner2 == avgWinner)) %>%
+  inner_join(moneyLineOdds, by="game_id") %>%
+  group_by(game_id) %>%
+  mutate(
+    odds_selected = if_else(netRatioWinner2 == home_team, home_moneyline, away_moneyline),
+    win = if_else(netRatioWinner2 == actualWinner, TRUE, FALSE)
+  )
+df <- apply(agreedGames, 1, totalReturnCalc)
+sumdf <- sum(df)
+```
+
+```{r}
+avgCoeff <- data.frame(c(baseline_predictor_df$homeAvg, baseline_predictor_df$awayAvg), c(baseline_predictor_df$home_score, baseline_predictor_df$away_score), c(baseline_predictor_df$homeavgRatio, baseline_predictor_df$awayAvgRatio), c(baseline_predictor_df$homeNetRatio, baseline_predictor_df$awayNetRatio), c(baseline_predictor_df$homeAvgRatio2, baseline_predictor_df$awayAvgRatio2), c(baseline_predictor_df$homeNetRatio2, baseline_predictor_df$awayNetRatio2), c(baseline_predictor_df$homeJuccula, baseline_predictor_df$awayJuccula)) %>%
+  rename(
+    avg = c.baseline_predictor_df.homeAvg..baseline_predictor_df.awayAvg.,
+    avgRatio = c.baseline_predictor_df.homeavgRatio..baseline_predictor_df.awayAvgRatio.,
+    avgRatio2 = c.baseline_predictor_df.homeAvgRatio2..baseline_predictor_df.awayAvgRatio2., 
+    netRatio = c.baseline_predictor_df.homeNetRatio..baseline_predictor_df.awayNetRatio.,
+    netRatio2 = c.baseline_predictor_df.homeNetRatio2..baseline_predictor_df.awayNetRatio2.,
+    juccula = c.baseline_predictor_df.homeJuccula..baseline_predictor_df.awayJuccula.,
+    actualScore = c.baseline_predictor_df.home_score..baseline_predictor_df.away_score.
+  )%>%
+  group_by(avg, avgRatio,avgRatio2,netRatio,netRatio2, juccula,actualScore) %>%
+  mutate(
+    meanFormula = (sum(avgRatio, avgRatio2, netRatio, juccula))/4
+  )
+print(cor(avgCoeff$avg, avgCoeff$actualScore))
+print(cor(avgCoeff$avgRatio, avgCoeff$actualScore))
+print(cor(avgCoeff$avgRatio2, avgCoeff$actualScore))
+print(cor(avgCoeff$netRatio, avgCoeff$actualScore))
+print(cor(avgCoeff$netRatio2, avgCoeff$actualScore))
+print(cor(avgCoeff$juccula, avgCoeff$actualScore))
+print(cor(avgCoeff$meanFormula, avgCoeff$actualScore))
 ```

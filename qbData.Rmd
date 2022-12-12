@@ -22,7 +22,7 @@ nflreadr::.clear_cache()
 ```{r cars}
 pbp <- load_pbp(2022) %>%
   filter(season_type == "REG") %>%
-  filter(!is.na(posteam) & (pass == 1) & (!is.na(passer)))
+  filter(!is.na(posteam) & (pass == 1) & (!is.na(passer)) & (!is.na(air_epa)) & (!is.na(xyac_epa)))
 ```
 
 ## Including Plots
@@ -33,26 +33,33 @@ You can also embed plots, for example:
 epaPerPass <- pbp %>%
   group_by(passer) %>%
   mutate(totalAttempts = n(),
+         avg_ypa = mean(air_yards),
          avg_epa = mean(qb_epa),
+         air_epa = mean(air_epa),
+         yac_epa = mean(yac_epa),
+         xyac_epa = mean(xyac_epa),
          shortPass = mean(air_yards < 10, na.rm = T),
          mediumPass = mean((10 <= air_yards & air_yards <= 25), na.rm = T),
          longPass = mean(air_yards > 25, na.rm = T)
          ) %>%
   summarize(passer,
             totalAttempts,
+            avg_ypa,
             avg_epa,
+            air_epa,
+            yac_epa,
+            xyac_epa,
             shortPass,
             mediumPass,
             longPass
             ) %>%
   filter(totalAttempts > 110) %>%
   unique()
-
 pbp <- pbp %>%
   filter(passer %in% epaPerPass$passer)
 
 ggplot(epaPerPass, aes(x = totalAttempts, y = avg_epa, label = passer)) +
-  geom_point() +
+  geom_jitter() +
   geom_label_repel(
     min.segment.length = 0,
     max.overlaps = Inf,
@@ -108,8 +115,42 @@ ggarrange(longPct_graph, mediumPct_graph, shortPct_graph,
           ncol = 1, nrow = 3)
 
 ```
-```{r fig.width = 45}
-
+```{r}
+ggplot(epaPerPass, aes(x = air_epa, y = yac_epa, label = passer)) +
+  geom_jitter() +
+  geom_label_repel(
+    min.segment.length = 0,
+    max.overlaps = Inf,
+    label.size = 0,
+    label.padding = 0,
+    label.r = 0,
+    size = 4,
+    family = "Monstercat"
+  ) +
+  geom_smooth(
+    method = lm,
+    se = FALSE,
+    col = 'red',
+    linetype = 'dashed'
+  )
 ```
-
+```{r}
+ggplot(epaPerPass, aes(x = air_epa, y = avg_ypa, label = passer)) +
+  geom_jitter() +
+  geom_label_repel(
+    min.segment.length = 0,
+    max.overlaps = Inf,
+    label.size = 0,
+    label.padding = 0,
+    label.r = 0,
+    size = 4,
+    family = "Monstercat"
+  ) +
+  geom_smooth(
+    method = lm,
+    se = FALSE,
+    col = 'red',
+    linetype = 'dashed'
+  )
+```
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
