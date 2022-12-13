@@ -55,6 +55,48 @@ epaPerPass <- pbp %>%
             ) %>%
   filter(totalAttempts > 110) %>%
   unique()
+
+shortAccuracy <- pbp %>%
+  filter(air_yards < 10) %>%
+  group_by(passer) %>%
+  mutate(
+    shortCompPct = mean(complete_pass)
+  ) %>%
+  summarize(
+    passer,
+    shortCompPct
+  ) %>%
+  unique()
+
+mediumAccuracy <- pbp %>%
+  filter(10 <= air_yards & air_yards <= 25) %>%
+  group_by(passer) %>%
+  mutate(
+    mediumCompPct = mean(complete_pass)
+  ) %>%
+  summarize(
+    passer,
+    mediumCompPct
+  ) %>%
+  unique()
+
+deepAccuracy <- pbp %>%
+  filter(air_yards > 25) %>%
+  group_by(passer) %>%
+  mutate(
+    deepCompPct = mean(complete_pass)
+  ) %>%
+  summarize(
+    passer,
+    deepCompPct
+  ) %>%
+  unique()
+
+epaPerPass <- epaPerPass %>%
+  inner_join(shortAccuracy, by="passer") %>%
+  inner_join(mediumAccuracy, by="passer") %>%
+  inner_join(deepAccuracy, by="passer")
+
 pbp <- pbp %>%
   filter(passer %in% epaPerPass$passer)
 
@@ -152,5 +194,102 @@ ggplot(epaPerPass, aes(x = air_epa, y = avg_ypa, label = passer)) +
     col = 'red',
     linetype = 'dashed'
   )
+```
+```{r fig.width = 25}
+data1 <- epaPerPass
+longComp_sorted <- data1 # Replicate original data
+longComp_sorted$passer <- factor(longComp_sorted$passer, # Factor levels in decreasing order
+                  levels = longComp_sorted$passer[order(longComp_sorted$deepCompPct, decreasing = TRUE)])
+
+mediumComp_sorted <- data1 
+mediumComp_sorted$passer <- factor(mediumComp_sorted$passer,                                  
+                 levels = mediumComp_sorted$passer[order(mediumComp_sorted$mediumCompPct, decreasing = TRUE)])
+
+shortComp_sorted <- data1 
+shortComp_sorted$passer <- factor(shortComp_sorted$passer,                                  
+                 levels = shortComp_sorted$passer[order(shortComp_sorted$shortCompPct, decreasing = TRUE)])
+
+longCompPct_graph <- longComp_sorted %>%
+  ggplot(aes(x = passer, y = deepCompPct)) +
+  ggtitle("Completion% forf Pass Attempts >25 Yards") +
+  geom_bar(stat = "identity", width = 0.7, fill = "#bc4b51") +
+  theme_classic() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1))
+
+mediumCompPct_graph <- mediumComp_sorted %>%
+  ggplot(aes(x = passer, y = mediumCompPct)) +
+  ggtitle("Completion% for Pass Attempts within 10-25 Yards") +
+  geom_bar(stat = "identity", width = 0.7, fill = "#f4a259") +
+  theme_classic() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1))
+
+shortCompPct_graph <-shortComp_sorted %>%
+  ggplot(aes(x = passer, y = shortCompPct)) +
+  ggtitle("Completion% for Pass Attempts <10 Yards") +
+  geom_bar(stat = "identity", width = 0.7, fill = "#8cb369") +
+  theme_classic() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1))
+
+ggarrange(longCompPct_graph, mediumCompPct_graph, shortCompPct_graph,
+          ncol = 1, nrow = 3)
+
+```
+```{r}
+shortPassScatter <- ggplot(epaPerPass, aes(x = shortPass, y = shortCompPct, label = passer))+
+    geom_jitter() +
+  geom_label_repel(
+    min.segment.length = 0,
+    max.overlaps = Inf,
+    label.size = 0,
+    label.padding = 0,
+    label.r = 0,
+    size = 4,
+    family = "Monstercat"
+  ) +
+  geom_smooth(
+    method = lm,
+    se = FALSE,
+    col = 'red',
+    linetype = 'dashed'
+  )
+
+mediumPassScatter <- ggplot(epaPerPass, aes(x = mediumPass, y = mediumCompPct, label = passer))+
+    geom_jitter() +
+  geom_label_repel(
+    min.segment.length = 0,
+    max.overlaps = Inf,
+    label.size = 0,
+    label.padding = 0,
+    label.r = 0,
+    size = 4,
+    family = "Monstercat"
+  ) +
+  geom_smooth(
+    method = lm,
+    se = FALSE,
+    col = 'red',
+    linetype = 'dashed'
+  )
+
+deepPassScatter <- ggplot(epaPerPass, aes(x = longPass, y = deepCompPct, label = passer))+
+    geom_jitter() +
+  geom_label_repel(
+    min.segment.length = 0,
+    max.overlaps = Inf,
+    label.size = 0,
+    label.padding = 0,
+    label.r = 0,
+    size = 4,
+    family = "Monstercat"
+  ) +
+  geom_smooth(
+    method = lm,
+    se = FALSE,
+    col = 'red',
+    linetype = 'dashed'
+  )
+print(deepPassScatter)
+print(mediumPassScatter)
+print(shortPassScatter)
 ```
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
