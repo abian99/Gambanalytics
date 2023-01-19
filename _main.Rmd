@@ -1,0 +1,588 @@
+---
+title: "Gambanalytics: Your guide to NFL Betting using NFL Trends and Data"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+---
+
+# About
+
+This book uses data from nflfastR (https://www.nflfastr.com/) and the R package. It is all a work in progress as well. 
+
+Current plans:
+
+- Add more visualization to team/QB Data
+
+- Analyze season long stats, last 5 games and predict future games based on opponent
+
+## Full Prediction Plans
+
+Game Props:
+
+- Game Result Money Line Prediction
+
+- Spread Results
+
+- Total Score Prediction
+
+- Winning Margins
+
+- Spread by Quarter
+
+Player Props:
+
+- Touchdown Scorer Prediction (First TD Scorer Potentially)
+
+- Passing Yards O/U
+
+- Pass Completions
+
+- Pass Attempts
+
+- Interception
+
+- Passing TDs
+
+- Longest Pass
+
+- Rushing Yards O/U
+
+- Longest Rush
+
+- Rushing + Receiving Yards O/U
+
+- Receiving Yards O/U
+
+- Total Receptions
+
+- Longest Reception
+
+<!--chapter:end:index.Rmd-->
+
+```{r include=FALSE}
+library(nflfastR)
+library(dplyr, warn.conflicts = FALSE)
+library(tidyverse)
+library(nflplotR)
+source("buildFunctions.R")
+knitr::opts_chunk$set(echo = TRUE)
+nflreadr::.clear_cache()
+
+offense_pbp <- load_pbp(2022) %>%
+  filter(season_type == "REG") %>%
+  filter(!is.na(posteam) & (rush == 1 | pass == 1))
+
+scores <-
+  offense_pbp[c(
+    'game_id',
+    'week',
+    'home_team',
+    'away_team',
+    'season_type',
+    'home_score',
+    'away_score'
+  )] %>%
+  unique()
+
+home_df <-
+  scores[c('week', 'home_team', 'away_team', 'home_score', 'away_score')] %>%
+  rename(team = home_team) %>%
+  group_by(team) %>%
+  mutate(
+    oppositionTeam = away_team,
+    PointsFor = mean(home_score),
+    PointsAgainst = mean(away_score),
+    win = if_else(home_score > away_score, 1, 0),
+    pythWin = (PointsFor^13.91)/((PointsFor^13.91)+(PointsAgainst^13.91))
+  ) %>%
+  summarise(week,
+            team,
+            oppositionTeam,
+            PointsFor,
+            PointsAgainst,
+            win,
+            pythWin
+            ) %>%
+  unique()
+
+away_df <-
+  scores[c('week', 'away_team', 'home_team', 'home_score', 'away_score')] %>%
+  rename(team = away_team) %>%
+  group_by(team) %>%
+  mutate(
+    oppositionTeam = home_team,
+    PointsFor = away_score,
+    PointsAgainst = home_score,
+    win = if_else(away_score > home_score, 1, 0),
+    pythWin = (PointsFor^13.91)/((PointsFor^13.91)+(PointsAgainst^13.91))
+  ) %>%
+  summarize(week,
+            team,
+            oppositionTeam,
+            PointsFor,
+            PointsAgainst,
+            win,
+            pythWin
+            ) %>%
+  unique()
+
+schedule_df <- rbind(x = away_df, y = home_df)
+avg_points = mean(schedule_df$PointsFor)
+```
+
+# Team Data
+
+The following are visuals and data that will help you with any Game Props or provide useful information to help you make more informed decisions when it comes to overall team-based results
+
+## General Team Data
+
+```{r warning = FALSE}
+team_df <- schedule_df %>%
+  group_by(team) %>%
+  mutate(
+    oRatio = mean(PointsFor / avg_points),
+    dRatio = mean(PointsAgainst / avg_points),
+    pointsFor = mean(PointsFor),
+    pointsAgainst = mean(PointsAgainst),
+    netPF = mean(PointsFor / dRatio),
+    netPA = mean(PointsAgainst / oRatio),
+    wins = sum(win),
+    losses = sum(win == 0),
+    winPct = wins / (wins + losses),
+    pythWin = ((pointsFor^2.37)/((pointsFor^2.37)+(pointsAgainst^2.37)))*17
+  ) %>%
+  summarize(team,
+            pointsFor,
+            pointsAgainst,
+            netPF,
+            netPA,
+            wins,
+            pythWin,
+            losses,
+            winPct,
+            oRatio,
+            dRatio) %>%
+  unique()
+
+ggplot(team_df, aes(x = pointsFor, y = pointsAgainst)) +
+  geom_mean_lines(aes(h_var = pointsFor, v_var = pointsAgainst)) +
+  geom_nfl_logos(aes(team_abbr = team), width = 0.07, alpha = 0.7) +
+  labs(x = "PointsFor/Game",
+       y = "PointsAgainst/Game",
+       title = "2021-2022 NFL Average Points For vs Points Against") +
+  theme_bw() +
+  theme(plot.title = element_text(size = 12, hjust = 0.5, face = "bold")) +
+  scale_y_reverse()
+```
+
+```{r}
+ggplot(team_df, aes(x = pointsFor, y = netPF)) +
+  geom_mean_lines(aes(h_var = pointsFor, v_var = netPF)) +
+  geom_nfl_logos(aes(team_abbr = team), width = 0.07, alpha = 0.7) +
+  labs(x = "Actual Points For",
+       y = "Weighted Points For",
+       title = "2022-2023 NFL Points For vs Weighted Points For Based On Opponent") +
+  theme_bw() +
+  theme(plot.title = element_text(size = 12, hjust = 0.5, face = "bold"))
+
+```
+
+``` {r}
+ggplot(team_df, aes(x = pointsAgainst, y = netPA)) +
+  geom_mean_lines(aes(h_var = pointsAgainst, v_var = netPA)) +
+  geom_nfl_logos(aes(team_abbr = team), width = 0.07, alpha = 0.7) +
+  labs(x = "Actual Points Against",
+       y = "Weighted Points Against",
+       title = "2022-2023 NFL Points Against vs Weighted Points Against Based On Opponent") +
+  theme_bw() +
+  theme(plot.title = element_text(size = 12, hjust = 0.5, face = "bold"))+
+  scale_y_reverse()+
+  scale_x_reverse()
+```
+
+## Game Props Predictions
+
+
+
+
+<!--chapter:end:01-intro.Rmd-->
+
+```{r include=FALSE}
+library(nflfastR)
+library(dplyr, warn.conflicts = FALSE)
+library(tidyverse)
+library(nflplotR)
+library(ggrepel)
+library(knitr)
+library(forcats)
+library(ggpubr)
+knitr::opts_chunk$set(echo = TRUE)
+nflreadr::.clear_cache()
+passing_pbp <- load_pbp(2022) %>%
+  filter(season_type == "REG") %>%
+  filter(!is.na(posteam) & (pass == 1) & (!is.na(passer)) & (!is.na(air_epa)) & (!is.na(xyac_epa)))
+```
+# QB Data
+
+Here we will have all NFL QB-related Data and predictions
+
+## General Data
+
+```{r echo=FALSE, warning = FALSE}
+epaPerPass <- passing_pbp %>%
+  group_by(passer) %>%
+  mutate(totalAttempts = n(),
+         avg_ypa = mean(air_yards),
+         avg_epa = mean(qb_epa),
+         air_epa = mean(air_epa),
+         yac_epa = mean(yac_epa),
+         xyac_epa = mean(xyac_epa),
+         xyac_yds = mean(xyac_mean_yardage),
+         shortPassAtt = mean(air_yards < 10, na.rm = T),
+         mediumPassAtt = mean((10 <= air_yards & air_yards <= 25), na.rm = T),
+         deepPassAtt = mean(air_yards > 25, na.rm = T)
+         ) %>%
+  summarize(passer,
+            totalAttempts,
+            avg_ypa,
+            avg_epa,
+            air_epa,
+            yac_epa,
+            xyac_epa,
+            xyac_yds,
+            shortPassAtt,
+            mediumPassAtt,
+            deepPassAtt
+            ) %>%
+  filter(totalAttempts > 110) %>%
+  unique()
+
+shortAccuracy <- passing_pbp %>%
+  filter(air_yards < 10) %>%
+  group_by(passer) %>%
+  mutate(
+    shortCompPct = mean(complete_pass)
+  ) %>%
+  summarize(
+    passer,
+    shortCompPct
+  ) %>%
+  unique()
+
+mediumAccuracy <- passing_pbp %>%
+  filter(10 <= air_yards & air_yards <= 25) %>%
+  group_by(passer) %>%
+  mutate(
+    mediumCompPct = mean(complete_pass)
+  ) %>%
+  summarize(
+    passer,
+    mediumCompPct
+  ) %>%
+  unique()
+
+deepAccuracy <- passing_pbp %>%
+  filter(air_yards > 25) %>%
+  group_by(passer) %>%
+  mutate(
+    deepCompPct = mean(complete_pass)
+  ) %>%
+  summarize(
+    passer,
+    deepCompPct
+  ) %>%
+  unique()
+
+epaPerPass <- epaPerPass %>%
+  inner_join(shortAccuracy, by="passer") %>%
+  inner_join(mediumAccuracy, by="passer") %>%
+  inner_join(deepAccuracy, by="passer")
+
+pbp <- passing_pbp %>%
+  filter(passer %in% epaPerPass$passer)
+
+ggplot(epaPerPass, aes(x = totalAttempts, y = avg_epa, label = passer)) +
+  geom_jitter() +
+  geom_label_repel(
+    min.segment.length = 0,
+    max.overlaps = Inf,
+    label.size = 0,
+    label.padding = 0,
+    label.r = 0,
+    size = 4
+  ) +
+  geom_smooth(
+    method = lm,
+    se = FALSE,
+    col = 'red',
+    linetype = 'dashed'
+  )
+```
+
+```{r echo=FALSE, warning = FALSE}
+epaPerPass <- passing_pbp %>%
+  group_by(passer) %>%
+  mutate(totalAttempts = n(),
+         avg_ypa = mean(air_yards),
+         avg_epa = mean(qb_epa),
+         air_epa = mean(air_epa),
+         yac_epa = mean(yac_epa),
+         xyac_epa = mean(xyac_epa),
+         xyac_yds = mean(xyac_mean_yardage),
+         shortPassAtt = mean(air_yards < 10, na.rm = T),
+         mediumPassAtt = mean((10 <= air_yards & air_yards <= 25), na.rm = T),
+         deepPassAtt = mean(air_yards > 25, na.rm = T)
+         ) %>%
+  summarize(passer,
+            totalAttempts,
+            avg_ypa,
+            avg_epa,
+            air_epa,
+            yac_epa,
+            xyac_epa,
+            xyac_yds,
+            shortPassAtt,
+            mediumPassAtt,
+            deepPassAtt
+            ) %>%
+  filter(totalAttempts > 110) %>%
+  unique()
+
+shortAccuracy <- passing_pbp %>%
+  filter(air_yards < 10) %>%
+  group_by(passer) %>%
+  mutate(
+    shortCompPct = mean(complete_pass)
+  ) %>%
+  summarize(
+    passer,
+    shortCompPct
+  ) %>%
+  unique()
+
+mediumAccuracy <- passing_pbp %>%
+  filter(10 <= air_yards & air_yards <= 25) %>%
+  group_by(passer) %>%
+  mutate(
+    mediumCompPct = mean(complete_pass)
+  ) %>%
+  summarize(
+    passer,
+    mediumCompPct
+  ) %>%
+  unique()
+
+deepAccuracy <- passing_pbp %>%
+  filter(air_yards > 25) %>%
+  group_by(passer) %>%
+  mutate(
+    deepCompPct = mean(complete_pass)
+  ) %>%
+  summarize(
+    passer,
+    deepCompPct
+  ) %>%
+  unique()
+
+epaPerPass <- epaPerPass %>%
+  inner_join(shortAccuracy, by="passer") %>%
+  inner_join(mediumAccuracy, by="passer") %>%
+  inner_join(deepAccuracy, by="passer")
+
+pbp <- passing_pbp %>%
+  filter(passer %in% epaPerPass$passer)
+
+ggplot(epaPerPass, aes(x = totalAttempts, y = avg_epa, label = passer)) +
+  geom_jitter() +
+  geom_label_repel(
+    min.segment.length = 0,
+    max.overlaps = Inf,
+    label.size = 0,
+    label.padding = 0,
+    label.r = 0,
+    size = 4
+  ) +
+  geom_smooth(
+    method = lm,
+    se = FALSE,
+    col = 'red',
+    linetype = 'dashed'
+  )
+```
+
+```{r fig.width = 25,echo=FALSE, warning = FALSE}
+data1 <- epaPerPass
+long_sorted <- data1 # Replicate original data
+long_sorted$passer <- factor(long_sorted$passer, # Factor levels in decreasing order
+                  levels = long_sorted$passer[order(long_sorted$deepPassAtt, decreasing = TRUE)])
+
+medium_sorted <- data1 
+medium_sorted$passer <- factor(medium_sorted$passer,                                  
+                 levels = medium_sorted$passer[order(medium_sorted$mediumPassAtt, decreasing = TRUE)])
+
+short_sorted <- data1 
+short_sorted$passer <- factor(short_sorted$passer,                                  
+                 levels = short_sorted$passer[order(short_sorted$shortPassAtt, decreasing = TRUE)])
+
+longPct_graph <- long_sorted %>%
+  ggplot(aes(x = passer, y = deepPassAtt)) +
+  ggtitle("Percentage of Pass Attempts >25 Yards") +
+  geom_bar(stat = "identity", width = 0.7, fill = "#bc4b51") +
+  theme_classic() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1))
+
+mediumPct_graph <- medium_sorted %>%
+  ggplot(aes(x = passer, y = mediumPassAtt)) +
+  ggtitle("Percentage of Pass Attempts within 10-25 Yards") +
+  geom_bar(stat = "identity", width = 0.7, fill = "#f4a259") +
+  theme_classic() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1))
+
+shortPct_graph <-short_sorted %>%
+  ggplot(aes(x = passer, y = shortPassAtt)) +
+  ggtitle("Percentage of Pass Attempts <10 Yards") +
+  geom_bar(stat = "identity", width = 0.7, fill = "#8cb369") +
+  theme_classic() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1))
+
+ggarrange(longPct_graph, mediumPct_graph, shortPct_graph,
+          ncol = 1, nrow = 3)
+
+```
+
+```{r echo=FALSE, warning = FALSE}
+ggplot(epaPerPass, aes(x = air_epa, y = yac_epa, label = passer)) +
+  geom_jitter() +
+  geom_label_repel(
+    min.segment.length = 0,
+    max.overlaps = Inf,
+    label.size = 0,
+    label.padding = 0,
+    label.r = 0,
+    size = 4
+  ) +
+  geom_smooth(
+    method = lm,
+    se = FALSE,
+    col = 'red',
+    linetype = 'dashed'
+  )
+```
+
+```{r echo=FALSE, warning = FALSE}
+ggplot(epaPerPass, aes(x = air_epa, y = avg_ypa, label = passer)) +
+  geom_jitter() +
+  geom_label_repel(
+    min.segment.length = 0,
+    max.overlaps = Inf,
+    label.size = 0,
+    label.padding = 0,
+    label.r = 0,
+    size = 4
+  ) +
+  geom_smooth(
+    method = lm,
+    se = FALSE,
+    col = 'red',
+    linetype = 'dashed'
+  )
+```
+
+```{r fig.width = 25,echo=FALSE, warning = FALSE}
+data1 <- epaPerPass
+longComp_sorted <- data1 # Replicate original data
+longComp_sorted$passer <- factor(longComp_sorted$passer, # Factor levels in decreasing order
+                  levels = longComp_sorted$passer[order(longComp_sorted$deepCompPct, decreasing = TRUE)])
+
+mediumComp_sorted <- data1 
+mediumComp_sorted$passer <- factor(mediumComp_sorted$passer,                                  
+                 levels = mediumComp_sorted$passer[order(mediumComp_sorted$mediumCompPct, decreasing = TRUE)])
+
+shortComp_sorted <- data1 
+shortComp_sorted$passer <- factor(shortComp_sorted$passer,                                  
+                 levels = shortComp_sorted$passer[order(shortComp_sorted$shortCompPct, decreasing = TRUE)])
+
+longCompPct_graph <- longComp_sorted %>%
+  ggplot(aes(x = passer, y = deepCompPct)) +
+  ggtitle("Completion% forf Pass Attempts >25 Yards") +
+  geom_bar(stat = "identity", width = 0.7, fill = "#bc4b51") +
+  theme_classic() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1))
+
+mediumCompPct_graph <- mediumComp_sorted %>%
+  ggplot(aes(x = passer, y = mediumCompPct)) +
+  ggtitle("Completion% for Pass Attempts within 10-25 Yards") +
+  geom_bar(stat = "identity", width = 0.7, fill = "#f4a259") +
+  theme_classic() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1))
+
+shortCompPct_graph <-shortComp_sorted %>%
+  ggplot(aes(x = passer, y = shortCompPct)) +
+  ggtitle("Completion% for Pass Attempts <10 Yards") +
+  geom_bar(stat = "identity", width = 0.7, fill = "#8cb369") +
+  theme_classic() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1))
+
+ggarrange(longCompPct_graph, mediumCompPct_graph, shortCompPct_graph,
+          ncol = 1, nrow = 3)
+
+```
+
+```{r fig.weight=250,echo=FALSE, warning = FALSE}
+shortPassScatter <- ggplot(epaPerPass, aes(x = shortPassAtt, y = shortCompPct, label = passer))+
+    geom_jitter() +
+  geom_label_repel(
+    min.segment.length = 0,
+    max.overlaps = Inf,
+    label.size = 0,
+    label.padding = 0,
+    label.r = 0,
+    size = 4
+  ) +
+  geom_smooth(
+    method = lm,
+    se = FALSE,
+    col = 'red',
+    linetype = 'dashed'
+  )
+
+mediumPassScatter <- ggplot(epaPerPass, aes(x = mediumPassAtt, y = mediumCompPct, label = passer))+
+    geom_jitter() +
+  geom_label_repel(
+    min.segment.length = 0,
+    max.overlaps = Inf,
+    label.size = 0,
+    label.padding = 0,
+    label.r = 0,
+    size = 4
+  ) +
+  geom_smooth(
+    method = lm,
+    se = FALSE,
+    col = 'red',
+    linetype = 'dashed'
+  )
+
+deepPassScatter <- ggplot(epaPerPass, aes(x = deepPassAtt, y = deepCompPct, label = passer))+
+    geom_jitter() +
+  geom_label_repel(
+    min.segment.length = 0,
+    max.overlaps = Inf,
+    label.size = 0,
+    label.padding = 0,
+    label.r = 0,
+    size = 4
+  ) +
+  geom_smooth(
+    method = lm,
+    se = FALSE,
+    col = 'red',
+    linetype = 'dashed'
+  )
+print(deepPassScatter)
+print(mediumPassScatter)
+print(shortPassScatter)
+
+```
+
+<!--chapter:end:02-cross-refs.Rmd-->
+
