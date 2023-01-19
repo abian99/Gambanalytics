@@ -1,0 +1,9 @@
+about
+full-prediction-plans
+team-data
+general-team-data
+qb-data
+general-data
+predictions
+upcoming-game-predictions
+past-results

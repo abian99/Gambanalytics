@@ -1,0 +1,24 @@
+"0","library(nflfastR)"
+"0","library(dplyr, warn.conflicts = FALSE)"
+"0","library(tidyverse)"
+"2","Registered S3 methods overwritten by 'dbplyr':
+  method         from
+  print.tbl_lazy     
+  print.tbl_sql      
+"
+"2","── [1mAttaching packages[22m ───────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse 1.3.2 ──"
+"2","[32m✔[39m [34mggplot2[39m 3.4.0     [32m✔[39m [34mpurrr  [39m 0.3.4
+[32m✔[39m [34mtibble [39m 3.1.7     [32m✔[39m [34mstringr[39m 1.4.0
+[32m✔[39m [34mtidyr  [39m 1.2.0     [32m✔[39m [34mforcats[39m 0.5.1
+[32m✔[39m [34mreadr  [39m 2.1.2     "
+"2","Warning: package ‘ggplot2’ was built under R version 4.2.2"
+"2","── [1mConflicts[22m ──────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+[31m✖[39m [34mdplyr[39m::[32mfilter()[39m masks [34mstats[39m::filter()
+[31m✖[39m [34mdplyr[39m::[32mlag()[39m    masks [34mstats[39m::lag()"
+"0","library(nflplotR)"
+"2","Warning: package ‘nflplotR’ was built under R version 4.2.2"
+"0","source(""buildFunctions.R"")"
+"0","knitr::opts_chunk$set(echo = TRUE)"
+"0","nflreadr::.clear_cache()"
+"2","nflreadr function cache cleared!
+"

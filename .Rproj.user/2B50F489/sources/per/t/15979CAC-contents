@@ -1,0 +1,368 @@
+```{r include=FALSE}
+library(nflfastR)
+library(dplyr, warn.conflicts = FALSE)
+library(tidyverse)
+library(nflplotR)
+source("buildFunctions.R")
+current_season = 2022
+knitr::opts_chunk$set(echo = TRUE)
+nflreadr::.clear_cache()
+options(dplyr.summarise.inform = FALSE)
+current_season_schedule <- fast_scraper_schedules(current_season)
+
+offense_pbp <- load_pbp(current_season) %>%
+  filter(season_type == "REG") %>%
+  filter(!is.na(posteam) & (rush == 1 | pass == 1))
+
+scores <-
+  offense_pbp[c(
+    'game_id',
+    'week',
+    'home_team',
+    'away_team',
+    'season_type',
+    'home_score',
+    'away_score'
+  )] %>%
+  unique()
+
+home_df <-
+  scores[c('week', 'home_team', 'away_team', 'home_score', 'away_score')] %>%
+  rename(team = home_team) %>%
+  group_by(team) %>%
+  mutate(
+    oppositionTeam = away_team,
+    PointsFor = mean(home_score),
+    PointsAgainst = mean(away_score),
+    win = if_else(home_score > away_score, 1, 0),
+    pythWin = (PointsFor^13.91)/((PointsFor^13.91)+(PointsAgainst^13.91))
+  ) %>%
+  summarise(week,
+            team,
+            oppositionTeam,
+            PointsFor,
+            PointsAgainst,
+            win,
+            pythWin
+            ) %>%
+  unique()
+
+away_df <-
+  scores[c('week', 'away_team', 'home_team', 'home_score', 'away_score')] %>%
+  rename(team = away_team) %>%
+  group_by(team) %>%
+  mutate(
+    oppositionTeam = home_team,
+    PointsFor = away_score,
+    PointsAgainst = home_score,
+    win = if_else(away_score > home_score, 1, 0),
+    pythWin = (PointsFor^13.91)/((PointsFor^13.91)+(PointsAgainst^13.91))
+  ) %>%
+  summarize(week,
+            team,
+            oppositionTeam,
+            PointsFor,
+            PointsAgainst,
+            win,
+            pythWin
+            ) %>%
+  unique()
+
+schedule_df <- rbind(x = away_df, y = home_df)
+avg_points = mean(schedule_df$PointsFor)
+
+team_df <- return_team_df(schedule_df)
+```
+# Predictions
+## Upcoming Game Predictions
+```{r, message = FALSE}
+current_date <- Sys.Date()
+date_limit <- current_date + 7
+
+upcoming_games <- current_season_schedule %>%
+  filter((gameday >= current_date)&(gameday < date_limit))
+
+predictor_DF <- return_predictor_df(upcoming_games, team_df, avg_points)
+
+#Calculating winner based off teams' average Points For for each team
+predictor_DF[c(    
+  'game_id', 
+  'home_team',
+  'away_team',
+  'homeAvg',
+  'awayAvg',
+  'avgWinner'
+  )]
+
+#Calculating winner based off teams' average Points For adjusted for how good the opposing team's defense is compared to the average NFL Defense
+predictor_DF[c(    
+  'game_id', 
+  'home_team',
+  'away_team',
+  'homeAvgRatio',
+  'awayAvgRatio',
+  'avgRatioWinner'
+  )]
+
+#Predicts game scores based on team's defense as worse defenses will tend to be on the field for longer, taking away from the team's offense. Meanwhile, good defenses will force 3-and-outs, getting their offence more plays
+predictor_DF[c(    
+  'game_id', 
+  'home_team',
+  'away_team',
+  'homeNetRatio',
+  'awayNetRatio',
+  'netRatioWinner'
+  )]
+
+# Predicts the game results based on the opposing team's average Points Against and own team's ratio compared to league average points scored
+predictor_DF[c(    
+  'game_id', 
+  'home_team',
+  'away_team',
+  'homeAvgRatio2',
+  'awayAvgRatio2',
+  'avgRatioWinner2'
+  )]
+
+# Predict game results based on netPF (Calculated by PF and adjusted for time taken by defense on field) and adjusted for opposing defense adjusted to average defense in points scored
+predictor_DF[c(    
+  'game_id', 
+  'home_team',
+  'away_team',
+  'homeNetRatio2',
+  'awayNetRatio2',
+  'netRatioWinner2'
+  )]
+
+# Predicts game results based on both offense and defense being adjusted to compare to league average.
+predictor_DF[c(    
+  'game_id', 
+  'home_team',
+  'away_team',
+  'homeJuccula',
+  'awayJuccula',
+  'jucculaWinner'
+  )]
+```
+## Past Results
+```{r message = FALSE}
+moneyLineOdds <- current_season_schedule %>%
+  summarize(game_id,
+            home_moneyline,
+            away_moneyline)
+
+completed_games <- current_season_schedule %>%
+  filter(gameday < current_date)
+
+temp_team_schedule <- schedule_df %>%
+  filter(week < 5)
+
+temp_league_schedule <- current_season_schedule %>%
+  filter(week == 5)
+
+temp_team_df <- return_team_df(temp_team_schedule)
+baseline_predictor_df <-
+  return_predictor_df(temp_league_schedule, temp_team_df, avg_points)
+
+for (week_counter in 6:max(completed_games$week)) {
+  temp_team_schedule2 <- schedule_df %>%
+    filter(week < week_counter)
+  
+  temp_league_schedule <- current_season_schedule %>%
+    filter(week == week_counter)
+  
+  temp_team_df <- return_team_df(temp_team_schedule2)
+  baseline_predictor_df <-
+    rbind(
+      baseline_predictor_df,
+      return_predictor_df(temp_league_schedule, temp_team_df, avg_points)
+    )
+}
+
+print(baseline_predictor_df[c(
+  'game_id',
+  'avgWinner',
+  'avgRatioWinner',
+  'netRatioWinner',
+  'avgRatioWinner2',
+  'netRatioWinner2',
+  'jucculaWinner',
+  'actualWinner'
+)], n = Inf)
+
+#Total Results
+
+ml_results <- baseline_predictor_df[c(
+  'game_id',
+  'avgWinner',
+  'avgRatioWinner',
+  'netRatioWinner',
+  'avgRatioWinner2',
+  'netRatioWinner2',
+  'jucculaWinner',
+  'actualWinner'
+)] %>%
+  mutate(
+    avgWinnerPct = sum(avgWinner == actualWinner) / n(),
+    avgRatioWinnerPct = sum(avgRatioWinner == actualWinner) / n(),
+    netRatioWinnerPct = sum(netRatioWinner == actualWinner) / n(),
+    avgRatioWinnerPct2 = sum(avgRatioWinner2 == actualWinner) / n(),
+    netRatioWinnerPct2 = sum(netRatioWinner2 == actualWinner) / n(),
+    jucculaWinPct = sum(netRatioWinner2 == actualWinner) / n(),
+    everyoneWinPct = sum((netRatioWinner2 == avgRatioWinner2) &
+                           (netRatioWinner2 == netRatioWinner) &
+                           (netRatioWinner2 == avgRatioWinner) &
+                           (netRatioWinner2 == avgWinner) &
+                           (netRatioWinner2 == actualWinner)
+    ) / sum((netRatioWinner2 == avgRatioWinner2) &
+              (netRatioWinner2 == netRatioWinner) &
+              (netRatioWinner2 == avgRatioWinner) &
+              (netRatioWinner2 == avgWinner)
+    ),
+    totalAgree = sum((netRatioWinner2 == avgRatioWinner2) &
+                       (netRatioWinner2 == netRatioWinner) &
+                       (netRatioWinner2 == avgRatioWinner) &
+                       (netRatioWinner2 == avgWinner) &
+                       (netRatioWinner2 == actualWinner)
+    ),
+    total = n()
+  ) %>%
+  summarize(
+    avgWinnerPct,
+    avgRatioWinnerPct,
+    netRatioWinnerPct,
+    avgRatioWinnerPct2,
+    netRatioWinnerPct2,
+    jucculaWinPct,
+    everyoneWinPct
+  ) %>%
+  unique()
+
+ml_results
+
+total_results <- baseline_predictor_df %>%
+  mutate(
+    avgWinnerPct = sum((((homeAvg + awayAvg) > total_line
+    ) &
+      ((home_score + away_score) > total_line
+      )) |
+      ((((homeAvg + awayAvg) < total_line) &
+          ((home_score + away_score) < total_line)
+      )) |
+      ((home_score+away_score) == total_line)) / n(),
+    avgRatioWinnerPct = sum((((homeAvgRatio + awayAvgRatio) > total_line
+    ) &
+      ((home_score + away_score) > total_line
+      )) |
+      ((((homeAvgRatio + awayAvgRatio) < total_line) &
+          ((home_score + away_score) < total_line)
+      )) |
+      ((home_score+away_score) == total_line)) / n(),
+    netRatioWinnerPct = sum((((homeNetRatio + awayNetRatio) > total_line
+    ) &
+      ((home_score + away_score) > total_line
+      )) |
+      ((((homeNetRatio + awayNetRatio) < total_line) &
+          ((home_score + away_score) < total_line)
+      )) |
+      ((home_score+away_score) == total_line)) / n(),
+    avgRatioWinnerPct2 = sum((((homeAvgRatio2 + awayAvgRatio2) > total_line
+    ) &
+      ((home_score + away_score) > total_line
+      )) |
+      ((((homeAvgRatio2 + awayAvgRatio2) < total_line) &
+          ((home_score + away_score) < total_line)
+      )) |
+      ((home_score+away_score) == total_line)) / n(),
+    netRatioWinnerPct2 = sum((((homeNetRatio2 + awayNetRatio2) > total_line
+    ) &
+      ((home_score + away_score) > total_line
+      )) |
+      ((((homeNetRatio2 + awayNetRatio2) < total_line) &
+          ((home_score + away_score) < total_line)
+      )) |
+      ((home_score+away_score) == total_line)) / n(),
+    jucculaWinPct = sum((((homeJuccula + awayJuccula) > total_line
+    ) &
+      ((home_score + away_score) > total_line
+      )) |
+      ((((homeJuccula + awayJuccula) < total_line) &
+          ((home_score + away_score) < total_line)
+      )) |
+      ((home_score+away_score) == total_line)) / n()
+  ) %>%
+  summarize(
+    avgWinnerPct,
+    avgRatioWinnerPct,
+    netRatioWinnerPct,
+    avgRatioWinnerPct2,
+    netRatioWinnerPct2,
+    jucculaWinPct
+  ) %>%
+  unique()
+
+total_results
+
+spread_results <- baseline_predictor_df %>%
+  mutate(
+    avgWinnerPct = sum((((homeAvg-awayAvg)>spread_line
+    ) &
+      ((home_score-away_score) > spread_line
+      )) |
+      ((((homeAvg-awayAvg) < spread_line) &
+          ((home_score-away_score) < spread_line)
+      )) |
+      ((home_score-away_score) == spread_line)) / n(),
+    avgRatioWinnerPct = sum((((homeAvgRatio-awayAvgRatio)>spread_line
+    ) &
+      ((home_score-away_score) > spread_line
+      )) |
+      ((((homeAvgRatio-awayAvgRatio) < spread_line) &
+          ((home_score-away_score) < spread_line)
+      )) |
+      ((home_score-away_score) == spread_line)) / n(),
+    netRatioWinnerPct = sum((((homeNetRatio - awayNetRatio)>spread_line
+    ) &
+      ((home_score-away_score) > spread_line
+      )) |
+      ((((homeNetRatio - awayNetRatio) < spread_line) &
+          ((home_score-away_score) < spread_line)
+      )) |
+      ((home_score-away_score) == spread_line)) / n(),
+    avgRatioWinnerPct2 = sum((((homeAvgRatio2 -awayAvgRatio2)>spread_line
+    ) &
+      ((home_score-away_score) > spread_line
+      )) |
+      ((((homeAvgRatio2 -awayAvgRatio2) < spread_line) &
+          ((home_score-away_score) < spread_line)
+      )) |
+      ((home_score-away_score) == spread_line)) / n(),
+    netRatioWinnerPct2 = sum((((homeNetRatio2 - awayNetRatio2)>spread_line
+    ) &
+      ((home_score-away_score) > spread_line
+      )) |
+      ((((homeNetRatio2 - awayNetRatio2) < spread_line) &
+          ((home_score-away_score) < spread_line)
+      )) |
+      ((home_score-away_score) == spread_line)) / n(),
+    jucculaWinPct = sum((((homeJuccula - awayJuccula)>spread_line
+    ) &
+      ((home_score-away_score) > spread_line
+      )) |
+      ((((homeJuccula - awayJuccula) < spread_line) &
+          ((home_score-away_score) < spread_line)
+      )) |
+      ((home_score-away_score) == spread_line)) / n()
+  ) %>%
+  summarize(
+    avgWinnerPct,
+    avgRatioWinnerPct,
+    netRatioWinnerPct,
+    avgRatioWinnerPct2,
+    netRatioWinnerPct2,
+    jucculaWinPct
+  ) %>%
+  unique()
+
+spread_results
+```

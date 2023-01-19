@@ -1,0 +1,8 @@
+"0","pbp <- load_pbp(2022) %>%"
+"0","  filter(season_type == ""REG"") %>%"
+"0","  filter(!is.na(posteam) & (rush == 1 | pass == 1))"
+"2","Note: nflreadr caches (i.e., stores a saved version) data by default.
+If you expect different output try one of the following:
+[34mℹ[39m Restart your R Session or
+[34mℹ[39m Run `nflreadr::.clear_cache()`.
+To disable this warning, run `options(nflreadr.verbose = FALSE)` or add it to your .Rprofile"

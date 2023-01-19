@@ -1,0 +1,57 @@
+---
+title: "Gambanalytics: Your guide to NFL Betting using NFL Trends and Data"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+---
+
+# About
+
+This book uses data from nflfastR (https://www.nflfastr.com/) and the R package. It is all a work in progress as well. 
+
+Current plans:
+
+- Add more visualization to team/QB Data
+
+- Analyze season long stats, last 5 games and predict future games based on opponent
+
+## Full Prediction Plans
+
+Game Props:
+
+- Game Result Money Line Prediction
+
+- Spread Results
+
+- Total Score Prediction
+
+- Winning Margins
+
+- Spread by Quarter
+
+Player Props:
+
+- Touchdown Scorer Prediction (First TD Scorer Potentially)
+
+- Passing Yards O/U
+
+- Pass Completions
+
+- Pass Attempts
+
+- Interception
+
+- Passing TDs
+
+- Longest Pass
+
+- Rushing Yards O/U
+
+- Longest Rush
+
+- Rushing + Receiving Yards O/U
+
+- Receiving Yards O/U
+
+- Total Receptions
+
+- Longest Reception

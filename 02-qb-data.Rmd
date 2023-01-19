@@ -1,0 +1,371 @@
+```{r include=FALSE}
+library(nflfastR)
+library(dplyr, warn.conflicts = FALSE)
+library(tidyverse)
+library(nflplotR)
+library(ggrepel)
+library(knitr)
+library(forcats)
+library(ggpubr)
+knitr::opts_chunk$set(echo = TRUE)
+nflreadr::.clear_cache()
+options(dplyr.summarise.inform = FALSE)
+
+passing_pbp <- load_pbp(2022) %>%
+  filter(season_type == "REG") %>%
+  filter(!is.na(posteam) & (pass == 1) & (!is.na(passer)) & (!is.na(air_epa)) & (!is.na(xyac_epa)))
+```
+# QB Data
+
+Here we will have all NFL QB-related Data and predictions
+
+## General Data
+
+```{r echo=FALSE, warning = FALSE, message = FALSE}
+epaPerPass <- passing_pbp %>%
+  group_by(passer) %>%
+  mutate(totalAttempts = n(),
+         avg_ypa = mean(air_yards),
+         avg_epa = mean(qb_epa),
+         air_epa = mean(air_epa),
+         yac_epa = mean(yac_epa),
+         xyac_epa = mean(xyac_epa),
+         xyac_yds = mean(xyac_mean_yardage),
+         shortPassAtt = mean(air_yards < 10, na.rm = T),
+         mediumPassAtt = mean((10 <= air_yards & air_yards <= 25), na.rm = T),
+         deepPassAtt = mean(air_yards > 25, na.rm = T)
+         ) %>%
+  summarize(passer,
+            totalAttempts,
+            avg_ypa,
+            avg_epa,
+            air_epa,
+            yac_epa,
+            xyac_epa,
+            xyac_yds,
+            shortPassAtt,
+            mediumPassAtt,
+            deepPassAtt
+            ) %>%
+  filter(totalAttempts > 110) %>%
+  unique()
+
+shortAccuracy <- passing_pbp %>%
+  filter(air_yards < 10) %>%
+  group_by(passer) %>%
+  mutate(
+    shortCompPct = mean(complete_pass)
+  ) %>%
+  summarize(
+    passer,
+    shortCompPct
+  ) %>%
+  unique()
+
+mediumAccuracy <- passing_pbp %>%
+  filter(10 <= air_yards & air_yards <= 25) %>%
+  group_by(passer) %>%
+  mutate(
+    mediumCompPct = mean(complete_pass)
+  ) %>%
+  summarize(
+    passer,
+    mediumCompPct
+  ) %>%
+  unique()
+
+deepAccuracy <- passing_pbp %>%
+  filter(air_yards > 25) %>%
+  group_by(passer) %>%
+  mutate(
+    deepCompPct = mean(complete_pass)
+  ) %>%
+  summarize(
+    passer,
+    deepCompPct
+  ) %>%
+  unique()
+
+epaPerPass <- epaPerPass %>%
+  inner_join(shortAccuracy, by="passer") %>%
+  inner_join(mediumAccuracy, by="passer") %>%
+  inner_join(deepAccuracy, by="passer")
+
+pbp <- passing_pbp %>%
+  filter(passer %in% epaPerPass$passer)
+
+ggplot(epaPerPass, aes(x = totalAttempts, y = avg_epa, label = passer)) +
+  geom_jitter() +
+  geom_label_repel(
+    min.segment.length = 0,
+    max.overlaps = Inf,
+    label.size = 0,
+    label.padding = 0,
+    label.r = 0,
+    size = 4
+  ) +
+  geom_smooth(
+    method = lm,
+    se = FALSE,
+    col = 'red',
+    linetype = 'dashed'
+  )
+```
+
+```{r echo=FALSE, warning = FALSE, message = FALSE}
+epaPerPass <- passing_pbp %>%
+  group_by(passer) %>%
+  mutate(totalAttempts = n(),
+         avg_ypa = mean(air_yards),
+         avg_epa = mean(qb_epa),
+         air_epa = mean(air_epa),
+         yac_epa = mean(yac_epa),
+         xyac_epa = mean(xyac_epa),
+         xyac_yds = mean(xyac_mean_yardage),
+         shortPassAtt = mean(air_yards < 10, na.rm = T),
+         mediumPassAtt = mean((10 <= air_yards & air_yards <= 25), na.rm = T),
+         deepPassAtt = mean(air_yards > 25, na.rm = T)
+         ) %>%
+  summarize(passer,
+            totalAttempts,
+            avg_ypa,
+            avg_epa,
+            air_epa,
+            yac_epa,
+            xyac_epa,
+            xyac_yds,
+            shortPassAtt,
+            mediumPassAtt,
+            deepPassAtt
+            ) %>%
+  filter(totalAttempts > 110) %>%
+  unique()
+
+shortAccuracy <- passing_pbp %>%
+  filter(air_yards < 10) %>%
+  group_by(passer) %>%
+  mutate(
+    shortCompPct = mean(complete_pass)
+  ) %>%
+  summarize(
+    passer,
+    shortCompPct
+  ) %>%
+  unique()
+
+mediumAccuracy <- passing_pbp %>%
+  filter(10 <= air_yards & air_yards <= 25) %>%
+  group_by(passer) %>%
+  mutate(
+    mediumCompPct = mean(complete_pass)
+  ) %>%
+  summarize(
+    passer,
+    mediumCompPct
+  ) %>%
+  unique()
+
+deepAccuracy <- passing_pbp %>%
+  filter(air_yards > 25) %>%
+  group_by(passer) %>%
+  mutate(
+    deepCompPct = mean(complete_pass)
+  ) %>%
+  summarize(
+    passer,
+    deepCompPct
+  ) %>%
+  unique()
+
+epaPerPass <- epaPerPass %>%
+  inner_join(shortAccuracy, by="passer") %>%
+  inner_join(mediumAccuracy, by="passer") %>%
+  inner_join(deepAccuracy, by="passer")
+
+pbp <- passing_pbp %>%
+  filter(passer %in% epaPerPass$passer)
+
+ggplot(epaPerPass, aes(x = totalAttempts, y = avg_epa, label = passer)) +
+  geom_jitter() +
+  geom_label_repel(
+    min.segment.length = 0,
+    max.overlaps = Inf,
+    label.size = 0,
+    label.padding = 0,
+    label.r = 0,
+    size = 4
+  ) +
+  geom_smooth(
+    method = lm,
+    se = FALSE,
+    col = 'red',
+    linetype = 'dashed'
+  )
+```
+
+```{r echo=FALSE, warning = FALSE, message = FALSE}
+data1 <- epaPerPass
+long_sorted <- data1 # Replicate original data
+long_sorted$passer <- factor(long_sorted$passer, # Factor levels in decreasing order
+                  levels = long_sorted$passer[order(long_sorted$deepPassAtt, decreasing = TRUE)])
+
+medium_sorted <- data1 
+medium_sorted$passer <- factor(medium_sorted$passer,                                  
+                 levels = medium_sorted$passer[order(medium_sorted$mediumPassAtt, decreasing = TRUE)])
+
+short_sorted <- data1 
+short_sorted$passer <- factor(short_sorted$passer,                                  
+                 levels = short_sorted$passer[order(short_sorted$shortPassAtt, decreasing = TRUE)])
+
+long_sorted %>%
+  ggplot(aes(x = passer, y = deepPassAtt)) +
+  ggtitle("Percentage of Pass Attempts >25 Yards") +
+  geom_bar(stat = "identity", width = 0.7, fill = "#bc4b51") +
+  theme_classic() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1))
+
+medium_sorted %>%
+  ggplot(aes(x = passer, y = mediumPassAtt)) +
+  ggtitle("Percentage of Pass Attempts within 10-25 Yards") +
+  geom_bar(stat = "identity", width = 0.7, fill = "#f4a259") +
+  theme_classic() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1))
+
+short_sorted %>%
+  ggplot(aes(x = passer, y = shortPassAtt)) +
+  ggtitle("Percentage of Pass Attempts <10 Yards") +
+  geom_bar(stat = "identity", width = 0.7, fill = "#8cb369") +
+  theme_classic() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1))
+```
+
+```{r echo=FALSE, warning = FALSE}
+ggplot(epaPerPass, aes(x = air_epa, y = yac_epa, label = passer)) +
+  geom_jitter() +
+  geom_label_repel(
+    min.segment.length = 0,
+    max.overlaps = Inf,
+    label.size = 0,
+    label.padding = 0,
+    label.r = 0,
+    size = 4
+  ) +
+  geom_smooth(
+    method = lm,
+    se = FALSE,
+    col = 'red',
+    linetype = 'dashed'
+  )
+```
+
+```{r echo=FALSE, warning = FALSE, message = FALSE}
+ggplot(epaPerPass, aes(x = air_epa, y = avg_ypa, label = passer)) +
+  geom_jitter() +
+  geom_label_repel(
+    min.segment.length = 0,
+    max.overlaps = Inf,
+    label.size = 0,
+    label.padding = 0,
+    label.r = 0,
+    size = 4
+  ) +
+  geom_smooth(
+    method = lm,
+    se = FALSE,
+    col = 'red',
+    linetype = 'dashed'
+  )
+```
+
+```{r fig.width = 25,echo=FALSE, warning = FALSE, message = FALSE}
+data1 <- epaPerPass
+longComp_sorted <- data1 # Replicate original data
+longComp_sorted$passer <- factor(longComp_sorted$passer, # Factor levels in decreasing order
+                  levels = longComp_sorted$passer[order(longComp_sorted$deepCompPct, decreasing = TRUE)])
+
+mediumComp_sorted <- data1 
+mediumComp_sorted$passer <- factor(mediumComp_sorted$passer,                                  
+                 levels = mediumComp_sorted$passer[order(mediumComp_sorted$mediumCompPct, decreasing = TRUE)])
+
+shortComp_sorted <- data1 
+shortComp_sorted$passer <- factor(shortComp_sorted$passer,                                  
+                 levels = shortComp_sorted$passer[order(shortComp_sorted$shortCompPct, decreasing = TRUE)])
+
+longComp_sorted %>%
+  ggplot(aes(x = passer, y = deepCompPct)) +
+  ggtitle("Completion% forf Pass Attempts >25 Yards") +
+  geom_bar(stat = "identity", width = 0.7, fill = "#bc4b51") +
+  theme_classic() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1))
+
+mediumComp_sorted %>%
+  ggplot(aes(x = passer, y = mediumCompPct)) +
+  ggtitle("Completion% for Pass Attempts within 10-25 Yards") +
+  geom_bar(stat = "identity", width = 0.7, fill = "#f4a259") +
+  theme_classic() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1))
+
+shortComp_sorted %>%
+  ggplot(aes(x = passer, y = shortCompPct)) +
+  ggtitle("Completion% for Pass Attempts <10 Yards") +
+  geom_bar(stat = "identity", width = 0.7, fill = "#8cb369") +
+  theme_classic() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1))
+```
+
+```{r fig.weight=250,echo=FALSE, warning = FALSE, message = FALSE}
+shortPassScatter <- ggplot(epaPerPass, aes(x = shortPassAtt, y = shortCompPct, label = passer))+
+    geom_jitter() +
+  geom_label_repel(
+    min.segment.length = 0,
+    max.overlaps = Inf,
+    label.size = 0,
+    label.padding = 0,
+    label.r = 0,
+    size = 4
+  ) +
+  geom_smooth(
+    method = lm,
+    se = FALSE,
+    col = 'red',
+    linetype = 'dashed'
+  )
+
+mediumPassScatter <- ggplot(epaPerPass, aes(x = mediumPassAtt, y = mediumCompPct, label = passer))+
+    geom_jitter() +
+  geom_label_repel(
+    min.segment.length = 0,
+    max.overlaps = Inf,
+    label.size = 0,
+    label.padding = 0,
+    label.r = 0,
+    size = 4
+  ) +
+  geom_smooth(
+    method = lm,
+    se = FALSE,
+    col = 'red',
+    linetype = 'dashed'
+  )
+
+deepPassScatter <- ggplot(epaPerPass, aes(x = deepPassAtt, y = deepCompPct, label = passer))+
+    geom_jitter() +
+  geom_label_repel(
+    min.segment.length = 0,
+    max.overlaps = Inf,
+    label.size = 0,
+    label.padding = 0,
+    label.r = 0,
+    size = 4
+  ) +
+  geom_smooth(
+    method = lm,
+    se = FALSE,
+    col = 'red',
+    linetype = 'dashed'
+  )
+print(deepPassScatter)
+print(mediumPassScatter)
+print(shortPassScatter)
+
+```

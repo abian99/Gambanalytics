@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 4 Predictions | Gambanalytics: Your guide to NFL Betting using NFL Trends and Data</title>
+  <meta name="description" content="Chapter 4 Predictions | Gambanalytics: Your guide to NFL Betting using NFL Trends and Data" />
+  <meta name="generator" content="bookdown 0.31 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 4 Predictions | Gambanalytics: Your guide to NFL Betting using NFL Trends and Data" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 4 Predictions | Gambanalytics: Your guide to NFL Betting using NFL Trends and Data" />
+  
+  
+  
+
+
+
+<meta name="date" content="2023-01-13" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="qb-data.html"/>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Gambanalytics: Your guide to NFL Data</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> About</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#full-prediction-plans"><i class="fa fa-check"></i><b>1.1</b> Full Prediction Plans</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="team-data.html"><a href="team-data.html"><i class="fa fa-check"></i><b>2</b> Team Data</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="team-data.html"><a href="team-data.html#general-team-data"><i class="fa fa-check"></i><b>2.1</b> General Team Data</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="qb-data.html"><a href="qb-data.html"><i class="fa fa-check"></i><b>3</b> QB Data</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="qb-data.html"><a href="qb-data.html#general-data"><i class="fa fa-check"></i><b>3.1</b> General Data</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="predictions.html"><a href="predictions.html"><i class="fa fa-check"></i><b>4</b> Predictions</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="predictions.html"><a href="predictions.html#upcoming-game-predictions"><i class="fa fa-check"></i><b>4.1</b> Upcoming Game Predictions</a></li>
+<li class="chapter" data-level="4.2" data-path="predictions.html"><a href="predictions.html#past-results"><i class="fa fa-check"></i><b>4.2</b> Past Results</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Gambanalytics: Your guide to NFL Betting using NFL Trends and Data</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="predictions" class="section level1 hasAnchor" number="4">
+<h1><span class="header-section-number">Chapter 4</span> Predictions<a href="predictions.html#predictions" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="upcoming-game-predictions" class="section level2 hasAnchor" number="4.1">
+<h2><span class="header-section-number">4.1</span> Upcoming Game Predictions<a href="predictions.html#upcoming-game-predictions" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="predictions.html#cb7-1" aria-hidden="true" tabindex="-1"></a>current_date <span class="ot">&lt;-</span> <span class="fu">Sys.Date</span>()</span>
+<span id="cb7-2"><a href="predictions.html#cb7-2" aria-hidden="true" tabindex="-1"></a>date_limit <span class="ot">&lt;-</span> current_date <span class="sc">+</span> <span class="dv">7</span></span>
+<span id="cb7-3"><a href="predictions.html#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="predictions.html#cb7-4" aria-hidden="true" tabindex="-1"></a>upcoming_games <span class="ot">&lt;-</span> current_season_schedule <span class="sc">%&gt;%</span></span>
+<span id="cb7-5"><a href="predictions.html#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>((gameday <span class="sc">&gt;=</span> current_date)<span class="sc">&amp;</span>(gameday <span class="sc">&lt;</span> date_limit))</span>
+<span id="cb7-6"><a href="predictions.html#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="predictions.html#cb7-7" aria-hidden="true" tabindex="-1"></a>predictor_DF <span class="ot">&lt;-</span> <span class="fu">return_predictor_df</span>(upcoming_games, team_df, avg_points)</span>
+<span id="cb7-8"><a href="predictions.html#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="predictions.html#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co">#Calculating winner based off teams&#39; average Points For for each team</span></span>
+<span id="cb7-10"><a href="predictions.html#cb7-10" aria-hidden="true" tabindex="-1"></a>predictor_DF[<span class="fu">c</span>(    </span>
+<span id="cb7-11"><a href="predictions.html#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;game_id&#39;</span>, </span>
+<span id="cb7-12"><a href="predictions.html#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;home_team&#39;</span>,</span>
+<span id="cb7-13"><a href="predictions.html#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;away_team&#39;</span>,</span>
+<span id="cb7-14"><a href="predictions.html#cb7-14" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;homeAvg&#39;</span>,</span>
+<span id="cb7-15"><a href="predictions.html#cb7-15" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;awayAvg&#39;</span>,</span>
+<span id="cb7-16"><a href="predictions.html#cb7-16" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;avgWinner&#39;</span></span>
+<span id="cb7-17"><a href="predictions.html#cb7-17" aria-hidden="true" tabindex="-1"></a>  )]</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 6
+##   game_id         home_team away_team homeAvg awayAvg avgWinner
+##   &lt;chr&gt;           &lt;chr&gt;     &lt;chr&gt;       &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;    
+## 1 2022_19_SEA_SF  SF        SEA          26.5    23.9 SF       
+## 2 2022_19_LAC_JAX JAX       LAC          23.8    23   JAX      
+## 3 2022_19_MIA_BUF BUF       MIA          28.4    23.4 BUF      
+## 4 2022_19_NYG_MIN MIN       NYG          24.9    21.5 MIN      
+## 5 2022_19_BAL_CIN CIN       BAL          26.1    20.6 CIN      
+## 6 2022_19_DAL_TB  TB        DAL          18.4    27.5 DAL</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="predictions.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Calculating winner based off teams&#39; average Points For adjusted for how good the opposing team&#39;s defense is compared to the average NFL Defense</span></span>
+<span id="cb9-2"><a href="predictions.html#cb9-2" aria-hidden="true" tabindex="-1"></a>predictor_DF[<span class="fu">c</span>(    </span>
+<span id="cb9-3"><a href="predictions.html#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;game_id&#39;</span>, </span>
+<span id="cb9-4"><a href="predictions.html#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;home_team&#39;</span>,</span>
+<span id="cb9-5"><a href="predictions.html#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;away_team&#39;</span>,</span>
+<span id="cb9-6"><a href="predictions.html#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;homeAvgRatio&#39;</span>,</span>
+<span id="cb9-7"><a href="predictions.html#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;awayAvgRatio&#39;</span>,</span>
+<span id="cb9-8"><a href="predictions.html#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;avgRatioWinner&#39;</span></span>
+<span id="cb9-9"><a href="predictions.html#cb9-9" aria-hidden="true" tabindex="-1"></a>  )]</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 6
+##   game_id         home_team away_team homeAvgRatio awayAvgRatio avgRatioWinner
+##   &lt;chr&gt;           &lt;chr&gt;     &lt;chr&gt;            &lt;dbl&gt;        &lt;dbl&gt; &lt;chr&gt;         
+## 1 2022_19_SEA_SF  SF        SEA               28.5         17.8 SF            
+## 2 2022_19_LAC_JAX JAX       LAC               24.5         21.6 JAX           
+## 3 2022_19_MIA_BUF BUF       MIA               30.5         19.1 BUF           
+## 4 2022_19_NYG_MIN MIN       NYG               24.9         24.6 MIN           
+## 5 2022_19_BAL_CIN CIN       BAL               22.1         18.9 CIN           
+## 6 2022_19_DAL_TB  TB        DAL               16.9         26.4 DAL</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="predictions.html#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Predicts game scores based on team&#39;s defense as worse defenses will tend to be on the field for longer, taking away from the team&#39;s offense. Meanwhile, good defenses will force 3-and-outs, getting their offence more plays</span></span>
+<span id="cb11-2"><a href="predictions.html#cb11-2" aria-hidden="true" tabindex="-1"></a>predictor_DF[<span class="fu">c</span>(    </span>
+<span id="cb11-3"><a href="predictions.html#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;game_id&#39;</span>, </span>
+<span id="cb11-4"><a href="predictions.html#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;home_team&#39;</span>,</span>
+<span id="cb11-5"><a href="predictions.html#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;away_team&#39;</span>,</span>
+<span id="cb11-6"><a href="predictions.html#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;homeNetRatio&#39;</span>,</span>
+<span id="cb11-7"><a href="predictions.html#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;awayNetRatio&#39;</span>,</span>
+<span id="cb11-8"><a href="predictions.html#cb11-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;netRatioWinner&#39;</span></span>
+<span id="cb11-9"><a href="predictions.html#cb11-9" aria-hidden="true" tabindex="-1"></a>  )]</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 6
+##   game_id         home_team away_team homeNetRatio awayNetRatio netRatioWinner
+##   &lt;chr&gt;           &lt;chr&gt;     &lt;chr&gt;            &lt;dbl&gt;        &lt;dbl&gt; &lt;chr&gt;         
+## 1 2022_19_SEA_SF  SF        SEA               38.3         16.5 SF            
+## 2 2022_19_LAC_JAX JAX       LAC               26.1         21.0 JAX           
+## 3 2022_19_MIA_BUF BUF       MIA               37.3         17.8 BUF           
+## 4 2022_19_NYG_MIN MIN       NYG               21.7         24.7 NYG           
+## 5 2022_19_BAL_CIN CIN       BAL               24.1         22.4 CIN           
+## 6 2022_19_DAL_TB  TB        DAL               17.6         28.8 DAL</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="predictions.html#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Predicts the game results based on the opposing team&#39;s average Points Against and own team&#39;s ratio compared to league average points scored</span></span>
+<span id="cb13-2"><a href="predictions.html#cb13-2" aria-hidden="true" tabindex="-1"></a>predictor_DF[<span class="fu">c</span>(    </span>
+<span id="cb13-3"><a href="predictions.html#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;game_id&#39;</span>, </span>
+<span id="cb13-4"><a href="predictions.html#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;home_team&#39;</span>,</span>
+<span id="cb13-5"><a href="predictions.html#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;away_team&#39;</span>,</span>
+<span id="cb13-6"><a href="predictions.html#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;homeAvgRatio2&#39;</span>,</span>
+<span id="cb13-7"><a href="predictions.html#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;awayAvgRatio2&#39;</span>,</span>
+<span id="cb13-8"><a href="predictions.html#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;avgRatioWinner2&#39;</span></span>
+<span id="cb13-9"><a href="predictions.html#cb13-9" aria-hidden="true" tabindex="-1"></a>  )]</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 6
+##   game_id         home_team away_team homeAvgRatio2 awayAvgRatio2 avgRatioWinn…¹
+##   &lt;chr&gt;           &lt;chr&gt;     &lt;chr&gt;             &lt;dbl&gt;         &lt;dbl&gt; &lt;chr&gt;         
+## 1 2022_19_SEA_SF  SF        SEA                28.5          17.8 SF            
+## 2 2022_19_LAC_JAX JAX       LAC                24.5          21.6 JAX           
+## 3 2022_19_MIA_BUF BUF       MIA                30.5          19.1 BUF           
+## 4 2022_19_NYG_MIN MIN       NYG                24.9          24.6 MIN           
+## 5 2022_19_BAL_CIN CIN       BAL                22.1          18.9 CIN           
+## 6 2022_19_DAL_TB  TB        DAL                16.9          26.4 DAL           
+## # … with abbreviated variable name ¹​avgRatioWinner2</code></pre>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="predictions.html#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Predict game results based on netPF (Calculated by PF and adjusted for time taken by defense on field) and adjusted for opposing defense adjusted to average defense in points scored</span></span>
+<span id="cb15-2"><a href="predictions.html#cb15-2" aria-hidden="true" tabindex="-1"></a>predictor_DF[<span class="fu">c</span>(    </span>
+<span id="cb15-3"><a href="predictions.html#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;game_id&#39;</span>, </span>
+<span id="cb15-4"><a href="predictions.html#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;home_team&#39;</span>,</span>
+<span id="cb15-5"><a href="predictions.html#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;away_team&#39;</span>,</span>
+<span id="cb15-6"><a href="predictions.html#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;homeNetRatio2&#39;</span>,</span>
+<span id="cb15-7"><a href="predictions.html#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;awayNetRatio2&#39;</span>,</span>
+<span id="cb15-8"><a href="predictions.html#cb15-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;netRatioWinner2&#39;</span></span>
+<span id="cb15-9"><a href="predictions.html#cb15-9" aria-hidden="true" tabindex="-1"></a>  )]</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 6
+##   game_id         home_team away_team homeNetRatio2 awayNetRatio2 netRatioWinn…¹
+##   &lt;chr&gt;           &lt;chr&gt;     &lt;chr&gt;             &lt;dbl&gt;         &lt;dbl&gt; &lt;chr&gt;         
+## 1 2022_19_SEA_SF  SF        SEA                26.1          14.7 SF            
+## 2 2022_19_LAC_JAX JAX       LAC                23.3          19.9 JAX           
+## 3 2022_19_MIA_BUF BUF       MIA                28.6          14.7 BUF           
+## 4 2022_19_NYG_MIN MIN       NYG                25.4          21.6 MIN           
+## 5 2022_19_BAL_CIN CIN       BAL                23.5          15.9 CIN           
+## 6 2022_19_DAL_TB  TB        DAL                13.5          31.4 DAL           
+## # … with abbreviated variable name ¹​netRatioWinner2</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="predictions.html#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Predicts game results based on both offense and defense being adjusted to compare to league average.</span></span>
+<span id="cb17-2"><a href="predictions.html#cb17-2" aria-hidden="true" tabindex="-1"></a>predictor_DF[<span class="fu">c</span>(    </span>
+<span id="cb17-3"><a href="predictions.html#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;game_id&#39;</span>, </span>
+<span id="cb17-4"><a href="predictions.html#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;home_team&#39;</span>,</span>
+<span id="cb17-5"><a href="predictions.html#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;away_team&#39;</span>,</span>
+<span id="cb17-6"><a href="predictions.html#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;homeJuccula&#39;</span>,</span>
+<span id="cb17-7"><a href="predictions.html#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;awayJuccula&#39;</span>,</span>
+<span id="cb17-8"><a href="predictions.html#cb17-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;jucculaWinner&#39;</span></span>
+<span id="cb17-9"><a href="predictions.html#cb17-9" aria-hidden="true" tabindex="-1"></a>  )]</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 6
+##   game_id         home_team away_team homeJuccula awayJuccula jucculaWinner
+##   &lt;chr&gt;           &lt;chr&gt;     &lt;chr&gt;           &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;        
+## 1 2022_19_SEA_SF  SF        SEA              28.5        17.8 SF           
+## 2 2022_19_LAC_JAX JAX       LAC              24.5        21.6 JAX          
+## 3 2022_19_MIA_BUF BUF       MIA              30.5        19.1 BUF          
+## 4 2022_19_NYG_MIN MIN       NYG              24.9        24.6 MIN          
+## 5 2022_19_BAL_CIN CIN       BAL              22.1        18.9 CIN          
+## 6 2022_19_DAL_TB  TB        DAL              16.9        26.4 DAL</code></pre>
+</div>
+<div id="past-results" class="section level2 hasAnchor" number="4.2">
+<h2><span class="header-section-number">4.2</span> Past Results<a href="predictions.html#past-results" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="predictions.html#cb19-1" aria-hidden="true" tabindex="-1"></a>moneyLineOdds <span class="ot">&lt;-</span> current_season_schedule <span class="sc">%&gt;%</span></span>
+<span id="cb19-2"><a href="predictions.html#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(game_id,</span>
+<span id="cb19-3"><a href="predictions.html#cb19-3" aria-hidden="true" tabindex="-1"></a>            home_moneyline,</span>
+<span id="cb19-4"><a href="predictions.html#cb19-4" aria-hidden="true" tabindex="-1"></a>            away_moneyline)</span>
+<span id="cb19-5"><a href="predictions.html#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-6"><a href="predictions.html#cb19-6" aria-hidden="true" tabindex="-1"></a>completed_games <span class="ot">&lt;-</span> current_season_schedule <span class="sc">%&gt;%</span></span>
+<span id="cb19-7"><a href="predictions.html#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(gameday <span class="sc">&lt;</span> current_date)</span>
+<span id="cb19-8"><a href="predictions.html#cb19-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-9"><a href="predictions.html#cb19-9" aria-hidden="true" tabindex="-1"></a>temp_team_schedule <span class="ot">&lt;-</span> schedule_df <span class="sc">%&gt;%</span></span>
+<span id="cb19-10"><a href="predictions.html#cb19-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(week <span class="sc">&lt;</span> <span class="dv">5</span>)</span>
+<span id="cb19-11"><a href="predictions.html#cb19-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-12"><a href="predictions.html#cb19-12" aria-hidden="true" tabindex="-1"></a>temp_league_schedule <span class="ot">&lt;-</span> current_season_schedule <span class="sc">%&gt;%</span></span>
+<span id="cb19-13"><a href="predictions.html#cb19-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(week <span class="sc">==</span> <span class="dv">5</span>)</span>
+<span id="cb19-14"><a href="predictions.html#cb19-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-15"><a href="predictions.html#cb19-15" aria-hidden="true" tabindex="-1"></a>temp_team_df <span class="ot">&lt;-</span> <span class="fu">return_team_df</span>(temp_team_schedule)</span>
+<span id="cb19-16"><a href="predictions.html#cb19-16" aria-hidden="true" tabindex="-1"></a>baseline_predictor_df <span class="ot">&lt;-</span></span>
+<span id="cb19-17"><a href="predictions.html#cb19-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return_predictor_df</span>(temp_league_schedule, temp_team_df, avg_points)</span>
+<span id="cb19-18"><a href="predictions.html#cb19-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-19"><a href="predictions.html#cb19-19" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (week_counter <span class="cf">in</span> <span class="dv">6</span><span class="sc">:</span><span class="fu">max</span>(completed_games<span class="sc">$</span>week)) {</span>
+<span id="cb19-20"><a href="predictions.html#cb19-20" aria-hidden="true" tabindex="-1"></a>  temp_team_schedule2 <span class="ot">&lt;-</span> schedule_df <span class="sc">%&gt;%</span></span>
+<span id="cb19-21"><a href="predictions.html#cb19-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(week <span class="sc">&lt;</span> week_counter)</span>
+<span id="cb19-22"><a href="predictions.html#cb19-22" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb19-23"><a href="predictions.html#cb19-23" aria-hidden="true" tabindex="-1"></a>  temp_league_schedule <span class="ot">&lt;-</span> current_season_schedule <span class="sc">%&gt;%</span></span>
+<span id="cb19-24"><a href="predictions.html#cb19-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(week <span class="sc">==</span> week_counter)</span>
+<span id="cb19-25"><a href="predictions.html#cb19-25" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb19-26"><a href="predictions.html#cb19-26" aria-hidden="true" tabindex="-1"></a>  temp_team_df <span class="ot">&lt;-</span> <span class="fu">return_team_df</span>(temp_team_schedule2)</span>
+<span id="cb19-27"><a href="predictions.html#cb19-27" aria-hidden="true" tabindex="-1"></a>  baseline_predictor_df <span class="ot">&lt;-</span></span>
+<span id="cb19-28"><a href="predictions.html#cb19-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rbind</span>(</span>
+<span id="cb19-29"><a href="predictions.html#cb19-29" aria-hidden="true" tabindex="-1"></a>      baseline_predictor_df,</span>
+<span id="cb19-30"><a href="predictions.html#cb19-30" aria-hidden="true" tabindex="-1"></a>      <span class="fu">return_predictor_df</span>(temp_league_schedule, temp_team_df, avg_points)</span>
+<span id="cb19-31"><a href="predictions.html#cb19-31" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb19-32"><a href="predictions.html#cb19-32" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb19-33"><a href="predictions.html#cb19-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-34"><a href="predictions.html#cb19-34" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(baseline_predictor_df[<span class="fu">c</span>(</span>
+<span id="cb19-35"><a href="predictions.html#cb19-35" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;game_id&#39;</span>,</span>
+<span id="cb19-36"><a href="predictions.html#cb19-36" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;avgWinner&#39;</span>,</span>
+<span id="cb19-37"><a href="predictions.html#cb19-37" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;avgRatioWinner&#39;</span>,</span>
+<span id="cb19-38"><a href="predictions.html#cb19-38" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;netRatioWinner&#39;</span>,</span>
+<span id="cb19-39"><a href="predictions.html#cb19-39" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;avgRatioWinner2&#39;</span>,</span>
+<span id="cb19-40"><a href="predictions.html#cb19-40" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;netRatioWinner2&#39;</span>,</span>
+<span id="cb19-41"><a href="predictions.html#cb19-41" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;jucculaWinner&#39;</span>,</span>
+<span id="cb19-42"><a href="predictions.html#cb19-42" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;actualWinner&#39;</span></span>
+<span id="cb19-43"><a href="predictions.html#cb19-43" aria-hidden="true" tabindex="-1"></a>)], <span class="at">n =</span> <span class="cn">Inf</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 207 × 8
+##     game_id         avgWinner avgRatio…¹ netRa…² avgRa…³ netRa…⁴ juccu…⁵ actua…⁶
+##     &lt;chr&gt;           &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;  
+##   1 2022_05_IND_DEN DEN       DEN        DEN     DEN     DEN     DEN     IND    
+##   2 2022_05_NYG_GB  NYG       NYG        NYG     NYG     NYG     NYG     NYG    
+##   3 2022_05_PIT_BUF BUF       BUF        BUF     BUF     BUF     BUF     BUF    
+##   4 2022_05_LAC_CLE LAC       LAC        CLE     LAC     LAC     LAC     LAC    
+##   5 2022_05_HOU_JAX JAX       JAX        JAX     JAX     JAX     JAX     HOU    
+##   6 2022_05_CHI_MIN MIN       MIN        MIN     MIN     MIN     MIN     MIN    
+##   7 2022_05_DET_NE  DET       DET        DET     DET     DET     DET     NE     
+##   8 2022_05_SEA_NO  SEA       NO         NO      NO      SEA     NO      NO     
+##   9 2022_05_MIA_NYJ MIA       MIA        NYJ     MIA     MIA     MIA     NYJ    
+##  10 2022_05_ATL_TB  ATL       TB         TB      TB      TB      TB      TB     
+##  11 2022_05_TEN_WAS WAS       WAS        WAS     WAS     WAS     WAS     TEN    
+##  12 2022_05_SF_CAR  CAR       SF         SF      SF      SF      SF      SF     
+##  13 2022_05_PHI_ARI PHI       PHI        PHI     PHI     PHI     PHI     PHI    
+##  14 2022_05_DAL_LA  DAL       DAL        DAL     DAL     DAL     DAL     DAL    
+##  15 2022_05_CIN_BAL CIN       CIN        CIN     CIN     CIN     CIN     BAL    
+##  16 2022_05_LV_KC   KC        KC         KC      KC      KC      KC      KC     
+##  17 2022_06_WAS_CHI WAS       WAS        WAS     WAS     WAS     WAS     WAS    
+##  18 2022_06_SF_ATL  ATL       SF         SF      SF      SF      SF      ATL    
+##  19 2022_06_NE_CLE  CLE       CLE        CLE     CLE     CLE     CLE     NE     
+##  20 2022_06_NYJ_GB  NYJ       NYJ        GB      NYJ     NYJ     NYJ     NYJ    
+##  21 2022_06_JAX_IND JAX       JAX        JAX     JAX     JAX     JAX     IND    
+##  22 2022_06_MIN_MIA MIA       MIN        MIN     MIN     MIN     MIN     MIN    
+##  23 2022_06_CIN_NO  CIN       CIN        CIN     CIN     CIN     CIN     CIN    
+##  24 2022_06_BAL_NYG BAL       BAL        BAL     BAL     BAL     BAL     NYG    
+##  25 2022_06_TB_PIT  TB        TB         TB      TB      TB      TB      PIT    
+##  26 2022_06_CAR_LA  CAR       CAR        CAR     CAR     CAR     CAR     LA     
+##  27 2022_06_ARI_SEA SEA       ARI        ARI     ARI     SEA     ARI     SEA    
+##  28 2022_06_BUF_KC  KC        BUF        BUF     BUF     BUF     BUF     BUF    
+##  29 2022_06_DAL_PHI PHI       DAL        DAL     DAL     DAL     DAL     PHI    
+##  30 2022_06_DEN_LAC LAC       LAC        DEN     LAC     LAC     LAC     LAC    
+##  31 2022_07_NO_ARI  NO        NO         NO      NO      NO      NO      ARI    
+##  32 2022_07_CLE_BAL BAL       BAL        BAL     BAL     BAL     BAL     BAL    
+##  33 2022_07_TB_CAR  TB        TB         TB      TB      TB      TB      CAR    
+##  34 2022_07_ATL_CIN CIN       CIN        CIN     CIN     CIN     CIN     CIN    
+##  35 2022_07_DET_DAL DAL       DAL        DAL     DAL     DAL     DAL     DAL    
+##  36 2022_07_NYG_JAX JAX       JAX        NYG     JAX     JAX     JAX     NYG    
+##  37 2022_07_IND_TEN TEN       TEN        IND     TEN     TEN     TEN     TEN    
+##  38 2022_07_GB_WAS  GB        GB         GB      GB      GB      GB      WAS    
+##  39 2022_07_NYJ_DEN NYJ       NYJ        NYJ     NYJ     NYJ     NYJ     NYJ    
+##  40 2022_07_HOU_LV  LV        LV         HOU     LV      LV      LV      LV     
+##  41 2022_07_SEA_LAC SEA       LAC        LAC     LAC     LAC     LAC     SEA    
+##  42 2022_07_KC_SF   KC        KC         SF      KC      KC      KC      KC     
+##  43 2022_07_PIT_MIA MIA       MIA        MIA     MIA     MIA     MIA     MIA    
+##  44 2022_07_CHI_NE  NE        NE         NE      NE      NE      NE      CHI    
+##  45 2022_08_BAL_TB  BAL       BAL        BAL     BAL     BAL     BAL     BAL    
+##  46 2022_08_DEN_JAX JAX       JAX        JAX     JAX     JAX     JAX     DEN    
+##  47 2022_08_CAR_ATL ATL       CAR        CAR     CAR     ATL     CAR     ATL    
+##  48 2022_08_CHI_DAL DAL       DAL        DAL     DAL     DAL     DAL     DAL    
+##  49 2022_08_MIA_DET MIA       MIA        MIA     MIA     MIA     MIA     MIA    
+##  50 2022_08_ARI_MIN MIN       MIN        MIN     MIN     MIN     MIN     MIN    
+##  51 2022_08_LV_NO   LV        LV         NO      LV      LV      LV      NO     
+##  52 2022_08_NE_NYJ  NYJ       NYJ        NYJ     NYJ     NYJ     NYJ     NE     
+##  53 2022_08_PIT_PHI PHI       PHI        PHI     PHI     PHI     PHI     PHI    
+##  54 2022_08_TEN_HOU TEN       TEN        TEN     TEN     TEN     TEN     TEN    
+##  55 2022_08_WAS_IND WAS       WAS        WAS     WAS     WAS     WAS     WAS    
+##  56 2022_08_SF_LA   SF        SF         SF      SF      SF      SF      SF     
+##  57 2022_08_NYG_SEA SEA       NYG        NYG     NYG     SEA     NYG     SEA    
+##  58 2022_08_GB_BUF  BUF       BUF        BUF     BUF     BUF     BUF     BUF    
+##  59 2022_08_CIN_CLE CIN       CIN        CIN     CIN     CIN     CIN     CLE    
+##  60 2022_09_PHI_HOU PHI       PHI        PHI     PHI     PHI     PHI     PHI    
+##  61 2022_09_LAC_ATL LAC       LAC        LAC     LAC     LAC     LAC     LAC    
+##  62 2022_09_MIA_CHI MIA       MIA        MIA     MIA     MIA     MIA     MIA    
+##  63 2022_09_CAR_CIN CIN       CIN        CIN     CIN     CIN     CIN     CIN    
+##  64 2022_09_GB_DET  DET       GB         GB      GB      DET     GB      DET    
+##  65 2022_09_LV_JAX  JAX       JAX        JAX     JAX     JAX     JAX     JAX    
+##  66 2022_09_IND_NE  NE        NE         NE      NE      NE      NE      NE     
+##  67 2022_09_BUF_NYJ BUF       BUF        BUF     BUF     BUF     BUF     NYJ    
+##  68 2022_09_MIN_WAS MIN       MIN        WAS     MIN     MIN     MIN     MIN    
+##  69 2022_09_SEA_ARI SEA       SEA        SEA     SEA     SEA     SEA     SEA    
+##  70 2022_09_LA_TB   LA        TB         TB      TB      TB      TB      TB     
+##  71 2022_09_TEN_KC  KC        KC         KC      KC      KC      KC      KC     
+##  72 2022_09_BAL_NO  BAL       BAL        BAL     BAL     BAL     BAL     BAL    
+##  73 2022_10_ATL_CAR ATL       ATL        ATL     ATL     ATL     ATL     CAR    
+##  74 2022_10_SEA_TB  SEA       SEA        TB      SEA     SEA     SEA     TB     
+##  75 2022_10_MIN_BUF BUF       BUF        BUF     BUF     BUF     BUF     MIN    
+##  76 2022_10_DET_CHI DET       DET        DET     DET     DET     DET     DET    
+##  77 2022_10_JAX_KC  KC        KC         KC      KC      KC      KC      KC     
+##  78 2022_10_CLE_MIA MIA       CLE        CLE     CLE     MIA     CLE     MIA    
+##  79 2022_10_HOU_NYG NYG       NYG        NYG     NYG     NYG     NYG     NYG    
+##  80 2022_10_NO_PIT  NO        NO         NO      NO      NO      NO      PIT    
+##  81 2022_10_DEN_TEN DEN       DEN        DEN     DEN     DEN     DEN     TEN    
+##  82 2022_10_IND_LV  LV        LV         LV      LV      LV      LV      IND    
+##  83 2022_10_DAL_GB  DAL       DAL        DAL     DAL     DAL     DAL     GB     
+##  84 2022_10_ARI_LA  ARI       LA         LA      LA      LA      LA      ARI    
+##  85 2022_10_LAC_SF  LAC       SF         SF      SF      SF      SF      SF     
+##  86 2022_10_WAS_PHI PHI       PHI        PHI     PHI     PHI     PHI     WAS    
+##  87 2022_11_TEN_GB  GB        GB         GB      GB      GB      GB      TEN    
+##  88 2022_11_CHI_ATL ATL       ATL        ATL     ATL     ATL     ATL     ATL    
+##  89 2022_11_CAR_BAL BAL       BAL        BAL     BAL     BAL     BAL     BAL    
+##  90 2022_11_CLE_BUF BUF       BUF        BUF     BUF     BUF     BUF     BUF    
+##  91 2022_11_WAS_HOU WAS       WAS        WAS     WAS     WAS     WAS     WAS    
+##  92 2022_11_PHI_IND PHI       PHI        PHI     PHI     PHI     PHI     PHI    
+##  93 2022_11_NYJ_NE  NYJ       NYJ        NYJ     NYJ     NYJ     NYJ     NE     
+##  94 2022_11_LA_NO   NO        LA         LA      LA      NO      LA      NO     
+##  95 2022_11_DET_NYG DET       NYG        NYG     NYG     DET     NYG     DET    
+##  96 2022_11_LV_DEN  LV        DEN        DEN     DEN     LV      DEN     LV     
+##  97 2022_11_DAL_MIN DAL       DAL        DAL     DAL     DAL     DAL     DAL    
+##  98 2022_11_CIN_PIT CIN       CIN        CIN     CIN     CIN     CIN     CIN    
+##  99 2022_11_KC_LAC  KC        KC         KC      KC      KC      KC      KC     
+## 100 2022_11_SF_ARI  SF        SF         SF      SF      SF      SF      SF     
+## 101 2022_12_BUF_DET BUF       BUF        BUF     BUF     BUF     BUF     BUF    
+## 102 2022_12_NYG_DAL DAL       DAL        DAL     DAL     DAL     DAL     DAL    
+## 103 2022_12_NE_MIN  MIN       NE         NE      NE      MIN     NE      MIN    
+## 104 2022_12_DEN_CAR CAR       DEN        DEN     DEN     CAR     DEN     CAR    
+## 105 2022_12_TB_CLE  CLE       TB         TB      TB      CLE     TB      CLE    
+## 106 2022_12_BAL_JAX JAX       BAL        BAL     BAL     BAL     BAL     JAX    
+## 107 2022_12_HOU_MIA MIA       MIA        MIA     MIA     MIA     MIA     MIA    
+## 108 2022_12_CHI_NYJ CHI       NYJ        NYJ     NYJ     NYJ     NYJ     NYJ    
+## 109 2022_12_CIN_TEN CIN       CIN        CIN     CIN     CIN     CIN     CIN    
+## 110 2022_12_ATL_WAS ATL       WAS        WAS     WAS     ATL     WAS     WAS    
+## 111 2022_12_LAC_ARI LAC       LAC        LAC     LAC     LAC     LAC     LAC    
+## 112 2022_12_LV_SEA  SEA       SEA        SEA     SEA     SEA     SEA     LV     
+## 113 2022_12_LA_KC   KC        KC         KC      KC      KC      KC      KC     
+## 114 2022_12_NO_SF   SF        SF         SF      SF      SF      SF      SF     
+## 115 2022_12_GB_PHI  PHI       PHI        PHI     PHI     PHI     PHI     PHI    
+## 116 2022_12_PIT_IND PIT       IND        IND     IND     PIT     IND     PIT    
+## 117 2022_13_BUF_NE  BUF       BUF        BUF     BUF     BUF     BUF     BUF    
+## 118 2022_13_PIT_ATL ATL       ATL        ATL     ATL     ATL     ATL     PIT    
+## 119 2022_13_DEN_BAL BAL       BAL        BAL     BAL     BAL     BAL     BAL    
+## 120 2022_13_GB_CHI  GB        GB         GB      GB      GB      GB      GB     
+## 121 2022_13_JAX_DET DET       JAX        JAX     JAX     DET     JAX     DET    
+## 122 2022_13_CLE_HOU CLE       CLE        CLE     CLE     CLE     CLE     CLE    
+## 123 2022_13_NYJ_MIN MIN       NYJ        NYJ     NYJ     MIN     NYJ     MIN    
+## 124 2022_13_WAS_NYG NYG       WAS        WAS     WAS     NYG     WAS     TIE    
+## 125 2022_13_TEN_PHI PHI       PHI        PHI     PHI     PHI     PHI     PHI    
+## 126 2022_13_SEA_LA  SEA       SEA        SEA     SEA     SEA     SEA     SEA    
+## 127 2022_13_MIA_SF  SF        SF         SF      SF      SF      SF      SF     
+## 128 2022_13_KC_CIN  KC        KC         KC      KC      KC      KC      CIN    
+## 129 2022_13_LAC_LV  LV        LAC        LAC     LAC     LAC     LAC     LV     
+## 130 2022_13_IND_DAL DAL       DAL        DAL     DAL     DAL     DAL     DAL    
+## 131 2022_13_NO_TB   NO        TB         TB      TB      TB      TB      TB     
+## 132 2022_14_LV_LA   LV        LV         LA      LV      LV      LV      LA     
+## 133 2022_14_NYJ_BUF BUF       BUF        BUF     BUF     BUF     BUF     BUF    
+## 134 2022_14_CLE_CIN CIN       CIN        CIN     CIN     CIN     CIN     CIN    
+## 135 2022_14_HOU_DAL DAL       DAL        DAL     DAL     DAL     DAL     DAL    
+## 136 2022_14_MIN_DET DET       DET        MIN     DET     DET     DET     DET    
+## 137 2022_14_PHI_NYG PHI       PHI        PHI     PHI     PHI     PHI     PHI    
+## 138 2022_14_BAL_PIT BAL       BAL        BAL     BAL     BAL     BAL     BAL    
+## 139 2022_14_JAX_TEN JAX       JAX        JAX     JAX     JAX     JAX     JAX    
+## 140 2022_14_KC_DEN  KC        KC         KC      KC      KC      KC      KC     
+## 141 2022_14_CAR_SEA SEA       SEA        SEA     SEA     SEA     SEA     CAR    
+## 142 2022_14_TB_SF   SF        SF         SF      SF      SF      SF      SF     
+## 143 2022_14_MIA_LAC MIA       MIA        LAC     MIA     MIA     MIA     LAC    
+## 144 2022_14_NE_ARI  ARI       NE         NE      NE      NE      NE      NE     
+## 145 2022_15_SF_SEA  SF        SF         SF      SF      SF      SF      SF     
+## 146 2022_15_IND_MIN MIN       MIN        MIN     MIN     MIN     MIN     MIN    
+## 147 2022_15_BAL_CLE BAL       BAL        BAL     BAL     BAL     BAL     CLE    
+## 148 2022_15_MIA_BUF BUF       BUF        BUF     BUF     BUF     BUF     BUF    
+## 149 2022_15_PIT_CAR CAR       CAR        CAR     CAR     CAR     CAR     PIT    
+## 150 2022_15_PHI_CHI PHI       PHI        PHI     PHI     PHI     PHI     PHI    
+## 151 2022_15_KC_HOU  KC        KC         KC      KC      KC      KC      KC     
+## 152 2022_15_DAL_JAX DAL       DAL        DAL     DAL     DAL     DAL     JAX    
+## 153 2022_15_ATL_NO  ATL       ATL        NO      ATL     ATL     ATL     NO     
+## 154 2022_15_DET_NYJ DET       DET        NYJ     DET     DET     DET     DET    
+## 155 2022_15_ARI_DEN ARI       DEN        DEN     DEN     ARI     DEN     DEN    
+## 156 2022_15_NE_LV   LV        NE         NE      NE      NE      NE      LV     
+## 157 2022_15_TEN_LAC LAC       LAC        LAC     LAC     LAC     LAC     LAC    
+## 158 2022_15_CIN_TB  CIN       CIN        CIN     CIN     CIN     CIN     CIN    
+## 159 2022_15_NYG_WAS NYG       WAS        WAS     WAS     NYG     WAS     NYG    
+## 160 2022_15_LA_GB   GB        GB         GB      GB      GB      GB      GB     
+## 161 2022_16_JAX_NYJ JAX       JAX        NYJ     JAX     JAX     JAX     JAX    
+## 162 2022_16_ATL_BAL ATL       BAL        BAL     BAL     BAL     BAL     BAL    
+## 163 2022_16_DET_CAR DET       DET        DET     DET     DET     DET     CAR    
+## 164 2022_16_BUF_CHI BUF       BUF        BUF     BUF     BUF     BUF     BUF    
+## 165 2022_16_NO_CLE  CLE       CLE        NO      CLE     CLE     CLE     NO     
+## 166 2022_16_SEA_KC  KC        KC         KC      KC      KC      KC      KC     
+## 167 2022_16_NYG_MIN MIN       MIN        NYG     MIN     MIN     MIN     MIN    
+## 168 2022_16_CIN_NE  CIN       CIN        CIN     CIN     CIN     CIN     CIN    
+## 169 2022_16_HOU_TEN TEN       TEN        TEN     TEN     TEN     TEN     HOU    
+## 170 2022_16_WAS_SF  SF        SF         SF      SF      SF      SF      SF     
+## 171 2022_16_PHI_DAL DAL       PHI        PHI     PHI     DAL     PHI     DAL    
+## 172 2022_16_LV_PIT  LV        LV         PIT     LV      LV      LV      PIT    
+## 173 2022_16_GB_MIA  MIA       MIA        GB      MIA     MIA     MIA     GB     
+## 174 2022_16_DEN_LA  LA        DEN        DEN     DEN     LA      DEN     LA     
+## 175 2022_16_TB_ARI  ARI       TB         TB      TB      ARI     TB      TB     
+## 176 2022_16_LAC_IND LAC       LAC        LAC     LAC     LAC     LAC     LAC    
+## 177 2022_17_DAL_TEN DAL       DAL        DAL     DAL     DAL     DAL     DAL    
+## 178 2022_17_ARI_ATL ATL       ATL        ATL     ATL     ATL     ATL     ATL    
+## 179 2022_17_CHI_DET DET       DET        DET     DET     DET     DET     DET    
+## 180 2022_17_JAX_HOU JAX       JAX        JAX     JAX     JAX     JAX     JAX    
+## 181 2022_17_DEN_KC  KC        KC         KC      KC      KC      KC      KC     
+## 182 2022_17_MIA_NE  MIA       NE         NE      NE      NE      NE      NE     
+## 183 2022_17_IND_NYG NYG       NYG        NYG     NYG     NYG     NYG     NYG    
+## 184 2022_17_NO_PHI  PHI       PHI        PHI     PHI     PHI     PHI     NO     
+## 185 2022_17_CAR_TB  CAR       CAR        TB      CAR     CAR     CAR     TB     
+## 186 2022_17_CLE_WAS CLE       CLE        WAS     CLE     CLE     CLE     CLE    
+## 187 2022_17_SF_LV   SF        SF         SF      SF      SF      SF      SF     
+## 188 2022_17_NYJ_SEA SEA       NYJ        NYJ     NYJ     SEA     NYJ     SEA    
+## 189 2022_17_MIN_GB  MIN       MIN        GB      MIN     MIN     MIN     GB     
+## 190 2022_17_LA_LAC  LAC       LAC        LAC     LAC     LAC     LAC     LAC    
+## 191 2022_17_PIT_BAL BAL       BAL        BAL     BAL     BAL     BAL     PIT    
+## 192 2022_18_KC_LV   KC        KC         KC      KC      KC      KC      KC     
+## 193 2022_18_TEN_JAX JAX       JAX        JAX     JAX     JAX     JAX     JAX    
+## 194 2022_18_TB_ATL  ATL       ATL        TB      ATL     ATL     ATL     ATL    
+## 195 2022_18_NE_BUF  BUF       BUF        BUF     BUF     BUF     BUF     BUF    
+## 196 2022_18_MIN_CHI MIN       MIN        MIN     MIN     MIN     MIN     MIN    
+## 197 2022_18_BAL_CIN CIN       CIN        BAL     CIN     CIN     CIN     CIN    
+## 198 2022_18_HOU_IND IND       IND        HOU     IND     IND     IND     HOU    
+## 199 2022_18_NYJ_MIA MIA       MIA        NYJ     MIA     MIA     MIA     MIA    
+## 200 2022_18_CAR_NO  CAR       NO         NO      NO      CAR     NO      CAR    
+## 201 2022_18_CLE_PIT CLE       CLE        CLE     CLE     CLE     CLE     PIT    
+## 202 2022_18_LAC_DEN LAC       LAC        LAC     LAC     LAC     LAC     DEN    
+## 203 2022_18_NYG_PHI PHI       PHI        PHI     PHI     PHI     PHI     PHI    
+## 204 2022_18_LA_SEA  SEA       SEA        SEA     SEA     SEA     SEA     SEA    
+## 205 2022_18_ARI_SF  SF        SF         SF      SF      SF      SF      SF     
+## 206 2022_18_DAL_WAS DAL       DAL        DAL     DAL     DAL     DAL     WAS    
+## 207 2022_18_DET_GB  DET       DET        GB      DET     DET     DET     DET    
+## # … with abbreviated variable names ¹​avgRatioWinner, ²​netRatioWinner,
+## #   ³​avgRatioWinner2, ⁴​netRatioWinner2, ⁵​jucculaWinner, ⁶​actualWinner</code></pre>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="predictions.html#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Total Results</span></span>
+<span id="cb21-2"><a href="predictions.html#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="predictions.html#cb21-3" aria-hidden="true" tabindex="-1"></a>ml_results <span class="ot">&lt;-</span> baseline_predictor_df[<span class="fu">c</span>(</span>
+<span id="cb21-4"><a href="predictions.html#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;game_id&#39;</span>,</span>
+<span id="cb21-5"><a href="predictions.html#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;avgWinner&#39;</span>,</span>
+<span id="cb21-6"><a href="predictions.html#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;avgRatioWinner&#39;</span>,</span>
+<span id="cb21-7"><a href="predictions.html#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;netRatioWinner&#39;</span>,</span>
+<span id="cb21-8"><a href="predictions.html#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;avgRatioWinner2&#39;</span>,</span>
+<span id="cb21-9"><a href="predictions.html#cb21-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;netRatioWinner2&#39;</span>,</span>
+<span id="cb21-10"><a href="predictions.html#cb21-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;jucculaWinner&#39;</span>,</span>
+<span id="cb21-11"><a href="predictions.html#cb21-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">&#39;actualWinner&#39;</span></span>
+<span id="cb21-12"><a href="predictions.html#cb21-12" aria-hidden="true" tabindex="-1"></a>)] <span class="sc">%&gt;%</span></span>
+<span id="cb21-13"><a href="predictions.html#cb21-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb21-14"><a href="predictions.html#cb21-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">avgWinnerPct =</span> <span class="fu">sum</span>(avgWinner <span class="sc">==</span> actualWinner) <span class="sc">/</span> <span class="fu">n</span>(),</span>
+<span id="cb21-15"><a href="predictions.html#cb21-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">avgRatioWinnerPct =</span> <span class="fu">sum</span>(avgRatioWinner <span class="sc">==</span> actualWinner) <span class="sc">/</span> <span class="fu">n</span>(),</span>
+<span id="cb21-16"><a href="predictions.html#cb21-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">netRatioWinnerPct =</span> <span class="fu">sum</span>(netRatioWinner <span class="sc">==</span> actualWinner) <span class="sc">/</span> <span class="fu">n</span>(),</span>
+<span id="cb21-17"><a href="predictions.html#cb21-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">avgRatioWinnerPct2 =</span> <span class="fu">sum</span>(avgRatioWinner2 <span class="sc">==</span> actualWinner) <span class="sc">/</span> <span class="fu">n</span>(),</span>
+<span id="cb21-18"><a href="predictions.html#cb21-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">netRatioWinnerPct2 =</span> <span class="fu">sum</span>(netRatioWinner2 <span class="sc">==</span> actualWinner) <span class="sc">/</span> <span class="fu">n</span>(),</span>
+<span id="cb21-19"><a href="predictions.html#cb21-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">jucculaWinPct =</span> <span class="fu">sum</span>(netRatioWinner2 <span class="sc">==</span> actualWinner) <span class="sc">/</span> <span class="fu">n</span>(),</span>
+<span id="cb21-20"><a href="predictions.html#cb21-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">everyoneWinPct =</span> <span class="fu">sum</span>((netRatioWinner2 <span class="sc">==</span> avgRatioWinner2) <span class="sc">&amp;</span></span>
+<span id="cb21-21"><a href="predictions.html#cb21-21" aria-hidden="true" tabindex="-1"></a>                           (netRatioWinner2 <span class="sc">==</span> netRatioWinner) <span class="sc">&amp;</span></span>
+<span id="cb21-22"><a href="predictions.html#cb21-22" aria-hidden="true" tabindex="-1"></a>                           (netRatioWinner2 <span class="sc">==</span> avgRatioWinner) <span class="sc">&amp;</span></span>
+<span id="cb21-23"><a href="predictions.html#cb21-23" aria-hidden="true" tabindex="-1"></a>                           (netRatioWinner2 <span class="sc">==</span> avgWinner) <span class="sc">&amp;</span></span>
+<span id="cb21-24"><a href="predictions.html#cb21-24" aria-hidden="true" tabindex="-1"></a>                           (netRatioWinner2 <span class="sc">==</span> actualWinner)</span>
+<span id="cb21-25"><a href="predictions.html#cb21-25" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">/</span> <span class="fu">sum</span>((netRatioWinner2 <span class="sc">==</span> avgRatioWinner2) <span class="sc">&amp;</span></span>
+<span id="cb21-26"><a href="predictions.html#cb21-26" aria-hidden="true" tabindex="-1"></a>              (netRatioWinner2 <span class="sc">==</span> netRatioWinner) <span class="sc">&amp;</span></span>
+<span id="cb21-27"><a href="predictions.html#cb21-27" aria-hidden="true" tabindex="-1"></a>              (netRatioWinner2 <span class="sc">==</span> avgRatioWinner) <span class="sc">&amp;</span></span>
+<span id="cb21-28"><a href="predictions.html#cb21-28" aria-hidden="true" tabindex="-1"></a>              (netRatioWinner2 <span class="sc">==</span> avgWinner)</span>
+<span id="cb21-29"><a href="predictions.html#cb21-29" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb21-30"><a href="predictions.html#cb21-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">totalAgree =</span> <span class="fu">sum</span>((netRatioWinner2 <span class="sc">==</span> avgRatioWinner2) <span class="sc">&amp;</span></span>
+<span id="cb21-31"><a href="predictions.html#cb21-31" aria-hidden="true" tabindex="-1"></a>                       (netRatioWinner2 <span class="sc">==</span> netRatioWinner) <span class="sc">&amp;</span></span>
+<span id="cb21-32"><a href="predictions.html#cb21-32" aria-hidden="true" tabindex="-1"></a>                       (netRatioWinner2 <span class="sc">==</span> avgRatioWinner) <span class="sc">&amp;</span></span>
+<span id="cb21-33"><a href="predictions.html#cb21-33" aria-hidden="true" tabindex="-1"></a>                       (netRatioWinner2 <span class="sc">==</span> avgWinner) <span class="sc">&amp;</span></span>
+<span id="cb21-34"><a href="predictions.html#cb21-34" aria-hidden="true" tabindex="-1"></a>                       (netRatioWinner2 <span class="sc">==</span> actualWinner)</span>
+<span id="cb21-35"><a href="predictions.html#cb21-35" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb21-36"><a href="predictions.html#cb21-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">total =</span> <span class="fu">n</span>()</span>
+<span id="cb21-37"><a href="predictions.html#cb21-37" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb21-38"><a href="predictions.html#cb21-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb21-39"><a href="predictions.html#cb21-39" aria-hidden="true" tabindex="-1"></a>    avgWinnerPct,</span>
+<span id="cb21-40"><a href="predictions.html#cb21-40" aria-hidden="true" tabindex="-1"></a>    avgRatioWinnerPct,</span>
+<span id="cb21-41"><a href="predictions.html#cb21-41" aria-hidden="true" tabindex="-1"></a>    netRatioWinnerPct,</span>
+<span id="cb21-42"><a href="predictions.html#cb21-42" aria-hidden="true" tabindex="-1"></a>    avgRatioWinnerPct2,</span>
+<span id="cb21-43"><a href="predictions.html#cb21-43" aria-hidden="true" tabindex="-1"></a>    netRatioWinnerPct2,</span>
+<span id="cb21-44"><a href="predictions.html#cb21-44" aria-hidden="true" tabindex="-1"></a>    jucculaWinPct,</span>
+<span id="cb21-45"><a href="predictions.html#cb21-45" aria-hidden="true" tabindex="-1"></a>    everyoneWinPct</span>
+<span id="cb21-46"><a href="predictions.html#cb21-46" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb21-47"><a href="predictions.html#cb21-47" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unique</span>()</span>
+<span id="cb21-48"><a href="predictions.html#cb21-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-49"><a href="predictions.html#cb21-49" aria-hidden="true" tabindex="-1"></a>ml_results</span></code></pre></div>
+<pre><code>## # A tibble: 1 × 7
+##   avgWinnerPct avgRatioWinnerPct netRatioWinne…¹ avgRa…² netRa…³ juccu…⁴ every…⁵
+##          &lt;dbl&gt;             &lt;dbl&gt;           &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+## 1        0.662             0.609           0.594   0.609   0.681   0.681   0.699
+## # … with abbreviated variable names ¹​netRatioWinnerPct, ²​avgRatioWinnerPct2,
+## #   ³​netRatioWinnerPct2, ⁴​jucculaWinPct, ⁵​everyoneWinPct</code></pre>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="predictions.html#cb23-1" aria-hidden="true" tabindex="-1"></a>total_results <span class="ot">&lt;-</span> baseline_predictor_df <span class="sc">%&gt;%</span></span>
+<span id="cb23-2"><a href="predictions.html#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb23-3"><a href="predictions.html#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">avgWinnerPct =</span> <span class="fu">sum</span>((((homeAvg <span class="sc">+</span> awayAvg) <span class="sc">&gt;</span> total_line</span>
+<span id="cb23-4"><a href="predictions.html#cb23-4" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">&amp;</span></span>
+<span id="cb23-5"><a href="predictions.html#cb23-5" aria-hidden="true" tabindex="-1"></a>      ((home_score <span class="sc">+</span> away_score) <span class="sc">&gt;</span> total_line</span>
+<span id="cb23-6"><a href="predictions.html#cb23-6" aria-hidden="true" tabindex="-1"></a>      )) <span class="sc">|</span></span>
+<span id="cb23-7"><a href="predictions.html#cb23-7" aria-hidden="true" tabindex="-1"></a>      ((((homeAvg <span class="sc">+</span> awayAvg) <span class="sc">&lt;</span> total_line) <span class="sc">&amp;</span></span>
+<span id="cb23-8"><a href="predictions.html#cb23-8" aria-hidden="true" tabindex="-1"></a>          ((home_score <span class="sc">+</span> away_score) <span class="sc">&lt;</span> total_line)</span>
+<span id="cb23-9"><a href="predictions.html#cb23-9" aria-hidden="true" tabindex="-1"></a>      )) <span class="sc">|</span></span>
+<span id="cb23-10"><a href="predictions.html#cb23-10" aria-hidden="true" tabindex="-1"></a>      ((home_score<span class="sc">+</span>away_score) <span class="sc">==</span> total_line)) <span class="sc">/</span> <span class="fu">n</span>(),</span>
+<span id="cb23-11"><a href="predictions.html#cb23-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">avgRatioWinnerPct =</span> <span class="fu">sum</span>((((homeAvgRatio <span class="sc">+</span> awayAvgRatio) <span class="sc">&gt;</span> total_line</span>
+<span id="cb23-12"><a href="predictions.html#cb23-12" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">&amp;</span></span>
+<span id="cb23-13"><a href="predictions.html#cb23-13" aria-hidden="true" tabindex="-1"></a>      ((home_score <span class="sc">+</span> away_score) <span class="sc">&gt;</span> total_line</span>
+<span id="cb23-14"><a href="predictions.html#cb23-14" aria-hidden="true" tabindex="-1"></a>      )) <span class="sc">|</span></span>
+<span id="cb23-15"><a href="predictions.html#cb23-15" aria-hidden="true" tabindex="-1"></a>      ((((homeAvgRatio <span class="sc">+</span> awayAvgRatio) <span class="sc">&lt;</span> total_line) <span class="sc">&amp;</span></span>
+<span id="cb23-16"><a href="predictions.html#cb23-16" aria-hidden="true" tabindex="-1"></a>          ((home_score <span class="sc">+</span> away_score) <span class="sc">&lt;</span> total_line)</span>
+<span id="cb23-17"><a href="predictions.html#cb23-17" aria-hidden="true" tabindex="-1"></a>      )) <span class="sc">|</span></span>
+<span id="cb23-18"><a href="predictions.html#cb23-18" aria-hidden="true" tabindex="-1"></a>      ((home_score<span class="sc">+</span>away_score) <span class="sc">==</span> total_line)) <span class="sc">/</span> <span class="fu">n</span>(),</span>
+<span id="cb23-19"><a href="predictions.html#cb23-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">netRatioWinnerPct =</span> <span class="fu">sum</span>((((homeNetRatio <span class="sc">+</span> awayNetRatio) <span class="sc">&gt;</span> total_line</span>
+<span id="cb23-20"><a href="predictions.html#cb23-20" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">&amp;</span></span>
+<span id="cb23-21"><a href="predictions.html#cb23-21" aria-hidden="true" tabindex="-1"></a>      ((home_score <span class="sc">+</span> away_score) <span class="sc">&gt;</span> total_line</span>
+<span id="cb23-22"><a href="predictions.html#cb23-22" aria-hidden="true" tabindex="-1"></a>      )) <span class="sc">|</span></span>
+<span id="cb23-23"><a href="predictions.html#cb23-23" aria-hidden="true" tabindex="-1"></a>      ((((homeNetRatio <span class="sc">+</span> awayNetRatio) <span class="sc">&lt;</span> total_line) <span class="sc">&amp;</span></span>
+<span id="cb23-24"><a href="predictions.html#cb23-24" aria-hidden="true" tabindex="-1"></a>          ((home_score <span class="sc">+</span> away_score) <span class="sc">&lt;</span> total_line)</span>
+<span id="cb23-25"><a href="predictions.html#cb23-25" aria-hidden="true" tabindex="-1"></a>      )) <span class="sc">|</span></span>
+<span id="cb23-26"><a href="predictions.html#cb23-26" aria-hidden="true" tabindex="-1"></a>      ((home_score<span class="sc">+</span>away_score) <span class="sc">==</span> total_line)) <span class="sc">/</span> <span class="fu">n</span>(),</span>
+<span id="cb23-27"><a href="predictions.html#cb23-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">avgRatioWinnerPct2 =</span> <span class="fu">sum</span>((((homeAvgRatio2 <span class="sc">+</span> awayAvgRatio2) <span class="sc">&gt;</span> total_line</span>
+<span id="cb23-28"><a href="predictions.html#cb23-28" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">&amp;</span></span>
+<span id="cb23-29"><a href="predictions.html#cb23-29" aria-hidden="true" tabindex="-1"></a>      ((home_score <span class="sc">+</span> away_score) <span class="sc">&gt;</span> total_line</span>
+<span id="cb23-30"><a href="predictions.html#cb23-30" aria-hidden="true" tabindex="-1"></a>      )) <span class="sc">|</span></span>
+<span id="cb23-31"><a href="predictions.html#cb23-31" aria-hidden="true" tabindex="-1"></a>      ((((homeAvgRatio2 <span class="sc">+</span> awayAvgRatio2) <span class="sc">&lt;</span> total_line) <span class="sc">&amp;</span></span>
+<span id="cb23-32"><a href="predictions.html#cb23-32" aria-hidden="true" tabindex="-1"></a>          ((home_score <span class="sc">+</span> away_score) <span class="sc">&lt;</span> total_line)</span>
+<span id="cb23-33"><a href="predictions.html#cb23-33" aria-hidden="true" tabindex="-1"></a>      )) <span class="sc">|</span></span>
+<span id="cb23-34"><a href="predictions.html#cb23-34" aria-hidden="true" tabindex="-1"></a>      ((home_score<span class="sc">+</span>away_score) <span class="sc">==</span> total_line)) <span class="sc">/</span> <span class="fu">n</span>(),</span>
+<span id="cb23-35"><a href="predictions.html#cb23-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">netRatioWinnerPct2 =</span> <span class="fu">sum</span>((((homeNetRatio2 <span class="sc">+</span> awayNetRatio2) <span class="sc">&gt;</span> total_line</span>
+<span id="cb23-36"><a href="predictions.html#cb23-36" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">&amp;</span></span>
+<span id="cb23-37"><a href="predictions.html#cb23-37" aria-hidden="true" tabindex="-1"></a>      ((home_score <span class="sc">+</span> away_score) <span class="sc">&gt;</span> total_line</span>
+<span id="cb23-38"><a href="predictions.html#cb23-38" aria-hidden="true" tabindex="-1"></a>      )) <span class="sc">|</span></span>
+<span id="cb23-39"><a href="predictions.html#cb23-39" aria-hidden="true" tabindex="-1"></a>      ((((homeNetRatio2 <span class="sc">+</span> awayNetRatio2) <span class="sc">&lt;</span> total_line) <span class="sc">&amp;</span></span>
+<span id="cb23-40"><a href="predictions.html#cb23-40" aria-hidden="true" tabindex="-1"></a>          ((home_score <span class="sc">+</span> away_score) <span class="sc">&lt;</span> total_line)</span>
+<span id="cb23-41"><a href="predictions.html#cb23-41" aria-hidden="true" tabindex="-1"></a>      )) <span class="sc">|</span></span>
+<span id="cb23-42"><a href="predictions.html#cb23-42" aria-hidden="true" tabindex="-1"></a>      ((home_score<span class="sc">+</span>away_score) <span class="sc">==</span> total_line)) <span class="sc">/</span> <span class="fu">n</span>(),</span>
+<span id="cb23-43"><a href="predictions.html#cb23-43" aria-hidden="true" tabindex="-1"></a>    <span class="at">jucculaWinPct =</span> <span class="fu">sum</span>((((homeJuccula <span class="sc">+</span> awayJuccula) <span class="sc">&gt;</span> total_line</span>
+<span id="cb23-44"><a href="predictions.html#cb23-44" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">&amp;</span></span>
+<span id="cb23-45"><a href="predictions.html#cb23-45" aria-hidden="true" tabindex="-1"></a>      ((home_score <span class="sc">+</span> away_score) <span class="sc">&gt;</span> total_line</span>
+<span id="cb23-46"><a href="predictions.html#cb23-46" aria-hidden="true" tabindex="-1"></a>      )) <span class="sc">|</span></span>
+<span id="cb23-47"><a href="predictions.html#cb23-47" aria-hidden="true" tabindex="-1"></a>      ((((homeJuccula <span class="sc">+</span> awayJuccula) <span class="sc">&lt;</span> total_line) <span class="sc">&amp;</span></span>
+<span id="cb23-48"><a href="predictions.html#cb23-48" aria-hidden="true" tabindex="-1"></a>          ((home_score <span class="sc">+</span> away_score) <span class="sc">&lt;</span> total_line)</span>
+<span id="cb23-49"><a href="predictions.html#cb23-49" aria-hidden="true" tabindex="-1"></a>      )) <span class="sc">|</span></span>
+<span id="cb23-50"><a href="predictions.html#cb23-50" aria-hidden="true" tabindex="-1"></a>      ((home_score<span class="sc">+</span>away_score) <span class="sc">==</span> total_line)) <span class="sc">/</span> <span class="fu">n</span>()</span>
+<span id="cb23-51"><a href="predictions.html#cb23-51" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb23-52"><a href="predictions.html#cb23-52" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb23-53"><a href="predictions.html#cb23-53" aria-hidden="true" tabindex="-1"></a>    avgWinnerPct,</span>
+<span id="cb23-54"><a href="predictions.html#cb23-54" aria-hidden="true" tabindex="-1"></a>    avgRatioWinnerPct,</span>
+<span id="cb23-55"><a href="predictions.html#cb23-55" aria-hidden="true" tabindex="-1"></a>    netRatioWinnerPct,</span>
+<span id="cb23-56"><a href="predictions.html#cb23-56" aria-hidden="true" tabindex="-1"></a>    avgRatioWinnerPct2,</span>
+<span id="cb23-57"><a href="predictions.html#cb23-57" aria-hidden="true" tabindex="-1"></a>    netRatioWinnerPct2,</span>
+<span id="cb23-58"><a href="predictions.html#cb23-58" aria-hidden="true" tabindex="-1"></a>    jucculaWinPct</span>
+<span id="cb23-59"><a href="predictions.html#cb23-59" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb23-60"><a href="predictions.html#cb23-60" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unique</span>()</span>
+<span id="cb23-61"><a href="predictions.html#cb23-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-62"><a href="predictions.html#cb23-62" aria-hidden="true" tabindex="-1"></a>total_results</span></code></pre></div>
+<pre><code>## # A tibble: 1 × 6
+##   avgWinnerPct avgRatioWinnerPct netRatioWinnerPct avgRatioWin…¹ netRa…² juccu…³
+##          &lt;dbl&gt;             &lt;dbl&gt;             &lt;dbl&gt;         &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+## 1        0.502             0.531             0.512         0.531   0.459   0.531
+## # … with abbreviated variable names ¹​avgRatioWinnerPct2, ²​netRatioWinnerPct2,
+## #   ³​jucculaWinPct</code></pre>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="predictions.html#cb25-1" aria-hidden="true" tabindex="-1"></a>spread_results <span class="ot">&lt;-</span> baseline_predictor_df <span class="sc">%&gt;%</span></span>
+<span id="cb25-2"><a href="predictions.html#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb25-3"><a href="predictions.html#cb25-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">avgWinnerPct =</span> <span class="fu">sum</span>((((homeAvg<span class="sc">-</span>awayAvg)<span class="sc">&gt;</span>spread_line</span>
+<span id="cb25-4"><a href="predictions.html#cb25-4" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">&amp;</span></span>
+<span id="cb25-5"><a href="predictions.html#cb25-5" aria-hidden="true" tabindex="-1"></a>      ((home_score<span class="sc">-</span>away_score) <span class="sc">&gt;</span> spread_line</span>
+<span id="cb25-6"><a href="predictions.html#cb25-6" aria-hidden="true" tabindex="-1"></a>      )) <span class="sc">|</span></span>
+<span id="cb25-7"><a href="predictions.html#cb25-7" aria-hidden="true" tabindex="-1"></a>      ((((homeAvg<span class="sc">-</span>awayAvg) <span class="sc">&lt;</span> spread_line) <span class="sc">&amp;</span></span>
+<span id="cb25-8"><a href="predictions.html#cb25-8" aria-hidden="true" tabindex="-1"></a>          ((home_score<span class="sc">-</span>away_score) <span class="sc">&lt;</span> spread_line)</span>
+<span id="cb25-9"><a href="predictions.html#cb25-9" aria-hidden="true" tabindex="-1"></a>      )) <span class="sc">|</span></span>
+<span id="cb25-10"><a href="predictions.html#cb25-10" aria-hidden="true" tabindex="-1"></a>      ((home_score<span class="sc">-</span>away_score) <span class="sc">==</span> spread_line)) <span class="sc">/</span> <span class="fu">n</span>(),</span>
+<span id="cb25-11"><a href="predictions.html#cb25-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">avgRatioWinnerPct =</span> <span class="fu">sum</span>((((homeAvgRatio<span class="sc">-</span>awayAvgRatio)<span class="sc">&gt;</span>spread_line</span>
+<span id="cb25-12"><a href="predictions.html#cb25-12" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">&amp;</span></span>
+<span id="cb25-13"><a href="predictions.html#cb25-13" aria-hidden="true" tabindex="-1"></a>      ((home_score<span class="sc">-</span>away_score) <span class="sc">&gt;</span> spread_line</span>
+<span id="cb25-14"><a href="predictions.html#cb25-14" aria-hidden="true" tabindex="-1"></a>      )) <span class="sc">|</span></span>
+<span id="cb25-15"><a href="predictions.html#cb25-15" aria-hidden="true" tabindex="-1"></a>      ((((homeAvgRatio<span class="sc">-</span>awayAvgRatio) <span class="sc">&lt;</span> spread_line) <span class="sc">&amp;</span></span>
+<span id="cb25-16"><a href="predictions.html#cb25-16" aria-hidden="true" tabindex="-1"></a>          ((home_score<span class="sc">-</span>away_score) <span class="sc">&lt;</span> spread_line)</span>
+<span id="cb25-17"><a href="predictions.html#cb25-17" aria-hidden="true" tabindex="-1"></a>      )) <span class="sc">|</span></span>
+<span id="cb25-18"><a href="predictions.html#cb25-18" aria-hidden="true" tabindex="-1"></a>      ((home_score<span class="sc">-</span>away_score) <span class="sc">==</span> spread_line)) <span class="sc">/</span> <span class="fu">n</span>(),</span>
+<span id="cb25-19"><a href="predictions.html#cb25-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">netRatioWinnerPct =</span> <span class="fu">sum</span>((((homeNetRatio <span class="sc">-</span> awayNetRatio)<span class="sc">&gt;</span>spread_line</span>
+<span id="cb25-20"><a href="predictions.html#cb25-20" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">&amp;</span></span>
+<span id="cb25-21"><a href="predictions.html#cb25-21" aria-hidden="true" tabindex="-1"></a>      ((home_score<span class="sc">-</span>away_score) <span class="sc">&gt;</span> spread_line</span>
+<span id="cb25-22"><a href="predictions.html#cb25-22" aria-hidden="true" tabindex="-1"></a>      )) <span class="sc">|</span></span>
+<span id="cb25-23"><a href="predictions.html#cb25-23" aria-hidden="true" tabindex="-1"></a>      ((((homeNetRatio <span class="sc">-</span> awayNetRatio) <span class="sc">&lt;</span> spread_line) <span class="sc">&amp;</span></span>
+<span id="cb25-24"><a href="predictions.html#cb25-24" aria-hidden="true" tabindex="-1"></a>          ((home_score<span class="sc">-</span>away_score) <span class="sc">&lt;</span> spread_line)</span>
+<span id="cb25-25"><a href="predictions.html#cb25-25" aria-hidden="true" tabindex="-1"></a>      )) <span class="sc">|</span></span>
+<span id="cb25-26"><a href="predictions.html#cb25-26" aria-hidden="true" tabindex="-1"></a>      ((home_score<span class="sc">-</span>away_score) <span class="sc">==</span> spread_line)) <span class="sc">/</span> <span class="fu">n</span>(),</span>
+<span id="cb25-27"><a href="predictions.html#cb25-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">avgRatioWinnerPct2 =</span> <span class="fu">sum</span>((((homeAvgRatio2 <span class="sc">-</span>awayAvgRatio2)<span class="sc">&gt;</span>spread_line</span>
+<span id="cb25-28"><a href="predictions.html#cb25-28" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">&amp;</span></span>
+<span id="cb25-29"><a href="predictions.html#cb25-29" aria-hidden="true" tabindex="-1"></a>      ((home_score<span class="sc">-</span>away_score) <span class="sc">&gt;</span> spread_line</span>
+<span id="cb25-30"><a href="predictions.html#cb25-30" aria-hidden="true" tabindex="-1"></a>      )) <span class="sc">|</span></span>
+<span id="cb25-31"><a href="predictions.html#cb25-31" aria-hidden="true" tabindex="-1"></a>      ((((homeAvgRatio2 <span class="sc">-</span>awayAvgRatio2) <span class="sc">&lt;</span> spread_line) <span class="sc">&amp;</span></span>
+<span id="cb25-32"><a href="predictions.html#cb25-32" aria-hidden="true" tabindex="-1"></a>          ((home_score<span class="sc">-</span>away_score) <span class="sc">&lt;</span> spread_line)</span>
+<span id="cb25-33"><a href="predictions.html#cb25-33" aria-hidden="true" tabindex="-1"></a>      )) <span class="sc">|</span></span>
+<span id="cb25-34"><a href="predictions.html#cb25-34" aria-hidden="true" tabindex="-1"></a>      ((home_score<span class="sc">-</span>away_score) <span class="sc">==</span> spread_line)) <span class="sc">/</span> <span class="fu">n</span>(),</span>
+<span id="cb25-35"><a href="predictions.html#cb25-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">netRatioWinnerPct2 =</span> <span class="fu">sum</span>((((homeNetRatio2 <span class="sc">-</span> awayNetRatio2)<span class="sc">&gt;</span>spread_line</span>
+<span id="cb25-36"><a href="predictions.html#cb25-36" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">&amp;</span></span>
+<span id="cb25-37"><a href="predictions.html#cb25-37" aria-hidden="true" tabindex="-1"></a>      ((home_score<span class="sc">-</span>away_score) <span class="sc">&gt;</span> spread_line</span>
+<span id="cb25-38"><a href="predictions.html#cb25-38" aria-hidden="true" tabindex="-1"></a>      )) <span class="sc">|</span></span>
+<span id="cb25-39"><a href="predictions.html#cb25-39" aria-hidden="true" tabindex="-1"></a>      ((((homeNetRatio2 <span class="sc">-</span> awayNetRatio2) <span class="sc">&lt;</span> spread_line) <span class="sc">&amp;</span></span>
+<span id="cb25-40"><a href="predictions.html#cb25-40" aria-hidden="true" tabindex="-1"></a>          ((home_score<span class="sc">-</span>away_score) <span class="sc">&lt;</span> spread_line)</span>
+<span id="cb25-41"><a href="predictions.html#cb25-41" aria-hidden="true" tabindex="-1"></a>      )) <span class="sc">|</span></span>
+<span id="cb25-42"><a href="predictions.html#cb25-42" aria-hidden="true" tabindex="-1"></a>      ((home_score<span class="sc">-</span>away_score) <span class="sc">==</span> spread_line)) <span class="sc">/</span> <span class="fu">n</span>(),</span>
+<span id="cb25-43"><a href="predictions.html#cb25-43" aria-hidden="true" tabindex="-1"></a>    <span class="at">jucculaWinPct =</span> <span class="fu">sum</span>((((homeJuccula <span class="sc">-</span> awayJuccula)<span class="sc">&gt;</span>spread_line</span>
+<span id="cb25-44"><a href="predictions.html#cb25-44" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">&amp;</span></span>
+<span id="cb25-45"><a href="predictions.html#cb25-45" aria-hidden="true" tabindex="-1"></a>      ((home_score<span class="sc">-</span>away_score) <span class="sc">&gt;</span> spread_line</span>
+<span id="cb25-46"><a href="predictions.html#cb25-46" aria-hidden="true" tabindex="-1"></a>      )) <span class="sc">|</span></span>
+<span id="cb25-47"><a href="predictions.html#cb25-47" aria-hidden="true" tabindex="-1"></a>      ((((homeJuccula <span class="sc">-</span> awayJuccula) <span class="sc">&lt;</span> spread_line) <span class="sc">&amp;</span></span>
+<span id="cb25-48"><a href="predictions.html#cb25-48" aria-hidden="true" tabindex="-1"></a>          ((home_score<span class="sc">-</span>away_score) <span class="sc">&lt;</span> spread_line)</span>
+<span id="cb25-49"><a href="predictions.html#cb25-49" aria-hidden="true" tabindex="-1"></a>      )) <span class="sc">|</span></span>
+<span id="cb25-50"><a href="predictions.html#cb25-50" aria-hidden="true" tabindex="-1"></a>      ((home_score<span class="sc">-</span>away_score) <span class="sc">==</span> spread_line)) <span class="sc">/</span> <span class="fu">n</span>()</span>
+<span id="cb25-51"><a href="predictions.html#cb25-51" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb25-52"><a href="predictions.html#cb25-52" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb25-53"><a href="predictions.html#cb25-53" aria-hidden="true" tabindex="-1"></a>    avgWinnerPct,</span>
+<span id="cb25-54"><a href="predictions.html#cb25-54" aria-hidden="true" tabindex="-1"></a>    avgRatioWinnerPct,</span>
+<span id="cb25-55"><a href="predictions.html#cb25-55" aria-hidden="true" tabindex="-1"></a>    netRatioWinnerPct,</span>
+<span id="cb25-56"><a href="predictions.html#cb25-56" aria-hidden="true" tabindex="-1"></a>    avgRatioWinnerPct2,</span>
+<span id="cb25-57"><a href="predictions.html#cb25-57" aria-hidden="true" tabindex="-1"></a>    netRatioWinnerPct2,</span>
+<span id="cb25-58"><a href="predictions.html#cb25-58" aria-hidden="true" tabindex="-1"></a>    jucculaWinPct</span>
+<span id="cb25-59"><a href="predictions.html#cb25-59" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb25-60"><a href="predictions.html#cb25-60" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unique</span>()</span>
+<span id="cb25-61"><a href="predictions.html#cb25-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-62"><a href="predictions.html#cb25-62" aria-hidden="true" tabindex="-1"></a>spread_results</span></code></pre></div>
+<pre><code>## # A tibble: 1 × 6
+##   avgWinnerPct avgRatioWinnerPct netRatioWinnerPct avgRatioWin…¹ netRa…² juccu…³
+##          &lt;dbl&gt;             &lt;dbl&gt;             &lt;dbl&gt;         &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+## 1        0.580             0.585             0.546         0.585   0.551   0.585
+## # … with abbreviated variable names ¹​avgRatioWinnerPct2, ²​netRatioWinnerPct2,
+## #   ³​jucculaWinPct</code></pre>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="qb-data.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/03-prediction-results.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
